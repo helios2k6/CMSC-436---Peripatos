@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<error_response xmlns="http://www.cs.umd.edu/class/fall2011/cmsc436/peripatos">
+	<error_code><!-- Error Code goes here --></error_code>
+</error_response>
+
+<!-- 
+	Possible error codes:
+		- Invalid login = 1000
+		- Invalid submission = 1001
+		- Invalid request = 1002
+-->

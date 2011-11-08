@@ -1,0 +1,92 @@
+Project Objects:
+
+Enum User_Type{
+	STUDENT,
+	PROFESSOR
+}
+
+User{
+	Long id; (Generated)
+	String name;
+	User_Type type;
+}
+
+GeoLocation{
+	Double latitude;
+	Double longitude;
+}
+
+Question{
+	Long id; (Generated)
+	User user;
+	String title;
+	String body;
+	Geolocation location;
+}
+
+Answer{
+	Long id; (Generated)
+	User user;
+	Date date;
+	Assignment assignment;
+	Question question;
+	String body;
+}
+
+Assignment{
+	Long id; (Generated)
+	User user;
+	String name;
+	List<Question> questions;
+	Date dueDate;
+}
+
+Course{
+	Long id; (Generated)
+	String name;
+	List<User> professors;
+	List<User> students;
+	List<Assignment> assignments;
+}
+
+Session{
+	Long hash;
+	User user;
+	Date expirationDate;
+}
+
+Mappings
+	Assignment <--> User
+		Each assignment must have an author
+	
+	Question <--> User
+		Each question must have an author associated with it
+	
+	Assignment <--> Questions
+		Each assignment must know which questions are associated with it
+		
+	Answer <--> User
+		Each answer must have an author associated with it
+		
+	Answer <--> Question
+		Each answer must have a question associated with it
+		
+	Answer <--> Assignment
+		Each answer must have an assignment associated with it
+		
+	Course <--> Users
+		Each course must have a list of users associated with it
+		
+	Course <--> Assignments
+		Each course must have a list of assignments
+		
+Messages
+
+Messages from Server to Android App
+	1. Courses, Assignments, and Questions (courses_assignments.xml)
+	2. Answer Submission Receipt (submission_receipt.xml)
+	3. Error Response
+	
+Messages from Android App to Server
+	1. Fetch Assignment Request (fetch_assignments.xml)
+	2. Answer Submission (answer_submission.xml)

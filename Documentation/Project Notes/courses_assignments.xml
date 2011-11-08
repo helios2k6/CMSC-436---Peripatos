@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<courses_and_assignments xmlns="http://www.cs.umd.edu/class/fall2011/cmsc436/peripatos">
+	<!-- Can have multiple courses -->
+		<course>
+			<course_id>60954862</course_id>
+			<course_name>Spring 2011 - CMSC 436</course_name>
+			<assignments>
+				<!-- Can have multiple assignments -->
+				<assignment>
+					<assignment_id>283490238</assignment_id>
+					<assignment_name>Assignment 1</assignment_name>
+					<questions>
+						<!-- Can have multiple questions -->
+						<question>
+							<question_id>0239483987</question_id>
+							<question_title>What building is this?</question_title>
+							<question_body>Example of an optional question body here</question_body>
+							<geolocation>
+								<latitude>38.98991</latitude>
+								<longitude>-76.936156</longitude>
+							</geolocation>
+						</question>
+						<question>
+							<question_id>56745266245</question_id>
+							<question_title>Another Question</question_title>
+							<question_body>Another example body</question_body>
+							<geolocation>
+								<latitude>38.9675</latitude>
+								<longitude>-76.345344</longitude>
+							</geolocation>
+						</question>
+					</questions>
+				</assignment>
+				<assignment>
+					<assignment_id>9082398742</assignment_id>
+					<assignment_name>Assignment 2</assignment_name>
+					<questions>
+						<question>
+							<question_id>9823475893457</question_id>
+							<question_title>Question title example</question_title>
+							<question_body>Question body example</question_body>
+							<geolocation>
+								<latitude>38.98991</latitude>
+								<longitude>-76.936156</longitude>
+							</geolocation>
+						</question>
+						<question>
+							<question_id>76895956768</question_id>
+							<question_title>Another Question</question_title>
+							<question_body>Another example body</question_body>
+							<geolocation>
+								<latitude>38.9675</latitude>
+								<longitude>-76.345344</longitude>
+							</geolocation>
+						</question>
+					</questions>
+				</assignment>
+			</assignments>
+		</course>
+		<course>
+			<class_id>568457453</class_id>
+			<class_name>Spring 2011 - CMSC 411</class_name>
+			<assignments>
+				<assignment>
+					<assignment_id>4563457347</assignment_id>
+					<assignment_name>Assignment 1</assignment_name>
+					<questions>
+						<question>
+							<question_id>4567347345</question_id>
+							<question_title>Blah</question_title>
+							<question_body>Lorem ipsum</question_body>
+							<geolocation>
+								<latitude>38.98991</latitude>
+								<longitude>-76.936156</longitude>
+							</geolocation>
+						</question>
+					</questions>
+				</assignment>
+			</assignments>
+		</course>
+</courses_and_assignments>

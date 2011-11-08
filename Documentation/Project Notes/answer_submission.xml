@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<answer_submission xmlns="http://www.cs.umd.edu/class/fall2011/cmsc436/peripatos">
+	<user_credentials>
+		<username>adele</username>
+		<password>password</password>
+	</user_credentials>
+	<assignments>
+		<assignment>
+			<assignment_id>220394876</assignment_id>
+				<questions>
+						<question>
+							<question_id>34589734895</question_id>
+							<answer_body>This is an answer</answer_body>
+						</question>
+						<question>
+							<question_id>456345633465</question_id>
+							<answer_body>This is another answer</answer_body>
+						</question>
+					</question>
+				</questions>
+		</assignment>
+		<assignment>
+			<assignment_id>0938453425</assignment_id>
+				<questions>
+						<question>
+							<question_id>0923745325</question_id>
+							<answer_body>This is an answer</answer_body>
+						</question>
+						<question>
+							<question_id>23413</question_id>
+							<answer_body>This is another answer</answer_body>
+						</question>
+					</question>
+				</questions>
+		</assignment>
+	</assignments>
+</answer_submission>
+
+<!-- Explaination
+	Each answer must be associated with three things:
+		1. The Student
+		2. The Assignment
+		3. The Question
+		
+	Since it is possible to re-use questions, we must specify which question on which assignment
+	the student wishes to answer.
+	
+	For instance, the professor may ask the same exact question on a quiz and on a final exam. 
+	Therefore, we need to distinguish between which assignment the student meant to answer 
+	since we do not want to exempt him from answering the question twice.
+-->

@@ -1,0 +1,74 @@
+Resources
+
+Android App - Students
+Note: There are NO sessions between Android and the Server
+
+/peripatos/android/request/ - POST
+	- Used to get user information, including course assignments
+	
+/peripatos/android/submit/ - POST
+	- Used to send answers to the server
+	
+Browser - Professors
+Note: There are authenticated sessions
+
+/peripatos/welcome - GET
+	- The home page of the site
+
+/peripatos/login - GET
+	- The login page of the site
+	- Also redirects here on invalid login
+	
+/peripatos/login - POST
+	- Destination of the login form from the website
+
+---Top Level Stuff---
+/peripatos/admin - GET
+	- Administrative homepage. 
+	- Can see Question bank
+	- Can see Assignment bank
+	- Can see Courses they are in charge of
+	
+/peripatos/assignments - GET
+	- List of assignments in the question bank
+	
+/peripatos/questions - GET
+	- List of questions in the question bank
+
+/peripatos/courses - GET
+	- List of courses user is in charge of
+
+---Details---
+----Assignments----
+/peripatos/assignments/{assignment_id} - GET
+	- Get assignment details
+	- Can edit the assignment from here as well
+	
+/peripatos/assignments/{assignment_id} - POST
+	- Edit assignment details
+	
+/peripatos/assignments/{assignment_id} - DELETE
+	- Delete assignment
+
+/peripatos/assignments/create_assignment - GET
+	- Form to create assignment
+	
+/peripatos/assignments/create_assignment - POST
+	- Destination for create assignment form
+	
+----Questions----
+/peripatos/questions/{question_id} - GET
+	- Get question details
+	- Can edit questions here
+	
+/peripatos/questions/{question_id} - POST
+	- Edit question details
+
+/peripatos/questions/{question_id} - DELETE
+	- Delete question
+
+/peripatos/questions/create_question - GET
+	- Form to create question
+
+/peripatos/questions/create_question - POST
+	- Destination to create question
