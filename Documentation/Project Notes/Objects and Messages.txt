@@ -49,12 +49,6 @@ Course{
 	List<Assignment> assignments;
 }
 
-Session{
-	Long hash;
-	User user;
-	Date expirationDate;
-}
-
 Mappings
 	Assignment <--> User
 		Each assignment must have an author
