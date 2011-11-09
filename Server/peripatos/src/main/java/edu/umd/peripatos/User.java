@@ -23,7 +23,4 @@ public class User {
 	public void setType(UserType type) {
 		this.type = type;
 	}
-	
-	
-	
 }
