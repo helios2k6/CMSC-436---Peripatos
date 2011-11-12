@@ -15,9 +15,11 @@ import javax.validation.constraints.NotNull;
 @Table(name = "QUESTION")
 public class Question {
 	private Long id;
-	private User user;
 	private String title;
 	private String body;
+	
+	//Join Values
+	private User user;
 	private GeoLocation location;
 	
 	@Id
@@ -62,7 +64,8 @@ public class Question {
 		this.body = body;
 	}
 	
-	@Column(name = "LOCATION")
+	@ManyToOne
+	@JoinTable(name = "QUESTION_GEOLOCATION", joinColumns = {@JoinColumn(name = "QUESTION_ID")})
 	public GeoLocation getLocation() {
 		return location;
 	}

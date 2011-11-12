@@ -19,8 +19,9 @@ import javax.validation.constraints.NotNull;
 public class Course {
 	private Long id;
 	private String name;
-	private List<User> professors;
-	private List<User> students;
+	
+	//Join values
+	private List<User> users;
 	private List<Assignment> assignments;
 	
 	@Id
@@ -45,26 +46,6 @@ public class Course {
 		this.name = name;
 	}
 	
-	@OneToMany(mappedBy = "COURSE", targetEntity = User.class, cascade = CascadeType.ALL)
-	@JoinTable(name = "COURSE_PROFESSOR", joinColumns = {@JoinColumn(name = "COURSE_ID")}, inverseJoinColumns = {@JoinColumn(name = "USER_ID")})
-	public List<User> getProfessors() {
-		return professors;
-	}
-	
-	public void setProfessors(List<User> professors) {
-		this.professors = professors;
-	}
-	
-	@OneToMany(mappedBy = "COURSE", targetEntity = User.class, cascade = CascadeType.ALL)
-	@JoinTable(name = "COURSE_STUDENTS", joinColumns = {@JoinColumn(name = "COURSE_ID")}, inverseJoinColumns = {@JoinColumn(name = "USER_ID")})
-	public List<User> getStudents() {
-		return students;
-	}
-	
-	public void setStudents(List<User> students) {
-		this.students = students;
-	}
-	
 	@OneToMany(mappedBy = "COURSE", targetEntity = Assignment.class, cascade = CascadeType.ALL)
 	@JoinTable(name = "COURSE_ASSIGNMENTS", joinColumns = {@JoinColumn(name = "COURSE_ID")}, inverseJoinColumns = {@JoinColumn(name = "ASSIGNMENT_ID")})
 	public List<Assignment> getAssignments() {
@@ -75,5 +56,13 @@ public class Course {
 		this.assignments = assignments;
 	}
 	
-	
+	@OneToMany(mappedBy = "COURSE", targetEntity = User.class, cascade = CascadeType.ALL)
+	@JoinTable(name = "COURSE_USER", joinColumns = {@JoinColumn(name = "COURSE_ID")}, inverseJoinColumns = {@JoinColumn(name = "USER_ID")})
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
 }

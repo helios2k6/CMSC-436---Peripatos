@@ -21,10 +21,12 @@ import org.joda.time.DateTime;
 @Table(name="ASSIGNMENT")
 public class Assignment {
 	private Long id;
-	private User user;
 	private String name;
-	private List<Question> questions;
 	private DateTime dueDate;
+	
+	//Join values
+	private User user;
+	private List<Question> questions;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
