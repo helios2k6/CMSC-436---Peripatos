@@ -18,16 +18,14 @@ public interface UserDao {
 	public String getPasswordById(Long id);
 	public String getPasswordByName(String name);
 	
-	public User findById(Long id);
-	public User findByName(String name);
+	public User findUserById(Long id);
+	public User findUserByName(String name);
 	
 	public List<User> getAllUsers();
 	
-	public List<Course> getCoursesRunByUser(User user);
-	public List<Course> getCoursesEnrolledByUser(User user);
-	
+	public List<Course> getCoursesByUser(User user);
 	public List<Assignment> getAssignmentsByUser(User user);
 	public List<Question> getQuestionsByUser(User user);
-	
 	public List<Answer> getAnswersByUser(User user);
+	
 }

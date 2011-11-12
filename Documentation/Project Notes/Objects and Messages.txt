@@ -86,7 +86,7 @@ Mappings
 		
 	Question --> Geolocation
 		- A question can have a geolocation
-		
+
 Messages
 
 Messages from Server to Android App
