@@ -39,6 +39,11 @@ Note: There are authenticated sessions
 	- List of courses user is in charge of
 
 ---Details---
+----Courses----
+/peripatos/courses/{course_id} - GET
+	- Get course details
+	- Shows all assignments in course
+	
 ----Assignments----
 /peripatos/assignments/{assignment_id} - GET
 	- Get assignment details

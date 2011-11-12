@@ -28,6 +28,7 @@ Answer{
 	Long id; (Generated)
 	User user;
 	Date date;
+	Course course;
 	Assignment assignment;
 	Question question;
 	String body;
@@ -50,29 +51,41 @@ Course{
 }
 
 Mappings
-	Assignment <--> User
-		Each assignment must have an author
+	User --> Assignment
+		- Users (authors) have multiple Assignments
+		- Join Table (Unidirection Many-to-One)
 	
-	Question <--> User
-		Each question must have an author associated with it
+	User --> Question
+		- Users (authors) have multiple Questions
+		- Join Table (Unidirection Many-to-One)
 	
-	Assignment <--> Questions
-		Each assignment must know which questions are associated with it
+	Assignment --> Question
+		- Assignments can have 0 or more Questions
+		- Join Table (Unidirection Many-to-One)
+	
+	User --> Answer
+		- Users can have multiple Answers
+		- Users do not know about Answers
+		- Join Table (Unidirection Many-to-One)
+	
+	Answer --> Question
+		- Answers must answer a question
 		
-	Answer <--> User
-		Each answer must have an author associated with it
+	Answer --> Assignment
+		- Answers must be related to an assignment
 		
-	Answer <--> Question
-		Each answer must have a question associated with it
+	Answer --> Course
+		- Answers must be related to a course
 		
-	Answer <--> Assignment
-		Each answer must have an assignment associated with it
+	Course --> User
+		- A User can be a member of a course
+		- A User can be the Professor of a course
 		
-	Course <--> Users
-		Each course must have a list of users associated with it
+	Course --> Assignments
+		- A Course can have multiple assignments
 		
-	Course <--> Assignments
-		Each course must have a list of assignments
+	Question --> Geolocation
+		- A question can have a geolocation
 		
 Messages
 
