@@ -19,16 +19,13 @@ public interface AssignmentDao {
 	//Get all assignments by author
 	public List<Assignment> findAssignmentByUser(User user);
 	
-	//Get all questions on the assignment
-	public List<Question> getQuestionsFromAssignment(Assignment assignment);
-	
 	//Assignment --> Question Relationship
 	public void addQuestionToAssignment(Assignment assignment, Question question);
 	public void removeQuestionFromAssignment(Assignment assignment, Question question);
 	
 	//Support functions for editing and creating an assignment
-	public void addQuestionsToAssignment(Collection<Question> questions);
-	public void removeQuestionsFromAssignment(Collection<Question> questions);
+	public void addQuestionsToAssignment(Assignment assignment, Collection<Question> questions);
+	public void removeQuestionsFromAssignment(Assignment assignment, Collection<Question> questions);
 	
 	//Get all assignments no matter what
 	public List<Assignment> getAllAssignments();

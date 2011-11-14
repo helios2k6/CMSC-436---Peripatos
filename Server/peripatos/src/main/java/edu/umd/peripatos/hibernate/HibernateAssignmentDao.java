@@ -56,34 +56,58 @@ public class HibernateAssignmentDao implements AssignmentDao{
 	}
 
 	@Override
-	public List<Question> getQuestionsFromAssignment(Assignment assignment) {
-		return null;
-	}
-
-	@Override
 	public void addQuestionToAssignment(Assignment assignment, Question question) {
-
+		Session session = sessionFactory.getCurrentSession();
+		List<Question> questions = assignment.getQuestions();
+		if(!questions.contains(question)){
+			questions.add(question);
+			session.saveOrUpdate(assignment);
+		}
 	}
 
 	@Override
-	public void removeQuestionFromAssignment(Assignment assignment,
-			Question question) {
+	public void removeQuestionFromAssignment(Assignment assignment,	Question question) {
+		Session session = sessionFactory.getCurrentSession();
 
+		List<Question> questions = assignment.getQuestions();
+		questions.remove(question);
+
+		session.saveOrUpdate(assignment);
 	}
 
 	@Override
-	public void addQuestionsToAssignment(Collection<Question> questions) {
-
+	public void addQuestionsToAssignment(Assignment assignment, Collection<Question> questions) {
+		Session session = sessionFactory.getCurrentSession();
+		List<Question> listOfQuestions = assignment.getQuestions();
+		
+		for(Question q : questions){
+			if(!listOfQuestions.contains(q)){
+				listOfQuestions.add(q);
+			}
+			
+		}
+		
+		session.saveOrUpdate(assignment);
 	}
 
 	@Override
-	public void removeQuestionsFromAssignment(Collection<Question> questions) {
+	public void removeQuestionsFromAssignment(Assignment assignment, Collection<Question> questions) {
+		Session session = sessionFactory.getCurrentSession();
+		List<Question> listOfQuesitons = assignment.getQuestions();
 
+		listOfQuesitons.removeAll(questions);
+
+		session.saveOrUpdate(assignment);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Assignment> getAllAssignments() {
-		return null;
+		Session session = sessionFactory.getCurrentSession();
+
+		Query query = session.createQuery("FROM Assignment");
+
+		return query.list();
 	}
 
 }
