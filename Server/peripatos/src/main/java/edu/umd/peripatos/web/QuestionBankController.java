@@ -49,7 +49,7 @@ public class QuestionBankController {
 	@RequestMapping(value = "/{question_id}", method = RequestMethod.POST)
 	public String postQuestionEdits(@PathVariable("question_id")Long id, 
 			@ModelAttribute("question") @Valid Question question, 
-			Model model, BindingResult result){
+			BindingResult result){
 		
 		if(result.hasErrors()){
 			return "questions/editQuestionForm";
@@ -67,7 +67,7 @@ public class QuestionBankController {
 	
 	@RequestMapping(value = "/createQuestion", method = RequestMethod.POST)
 	public String postNewQuestionForm(@ModelAttribute("question") @Valid Question question,
-			Model model, BindingResult result){
+			BindingResult result){
 		
 		if(result.hasErrors()){
 			return "questions/createQuestionForm";

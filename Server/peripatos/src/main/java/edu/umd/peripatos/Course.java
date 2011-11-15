@@ -1,5 +1,6 @@
 package edu.umd.peripatos;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -64,5 +65,29 @@ public class Course {
 
 	public void setUsers(List<User> users) {
 		this.users = users;
+	}
+	
+	public List<User> getStudents(){
+		List<User> students = new ArrayList<User>();
+		
+		for(User u : users){
+			if(u.getType() == UserType.STUDENT){
+				students.add(u);
+			}
+		}
+		
+		return students;
+	}
+	
+	public List<User> getProfessors(){
+		List<User> professors = new ArrayList<User>();
+		
+		for(User u : users){
+			if(u.getType() == UserType.PROFESSOR){
+				professors.add(u);
+			}
+		}
+		
+		return professors;
 	}
 }

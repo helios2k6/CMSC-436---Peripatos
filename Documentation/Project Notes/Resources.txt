@@ -10,8 +10,7 @@ Note: There are NO sessions between Android and the Server
 	- Used to send answers to the server
 	
 Browser - Professors
-Note: There are authenticated sessions
-
+---Login---
 /login - GET
 	- The login page of the site
 	- Also redirects here on invalid login
@@ -24,29 +23,41 @@ Note: There are authenticated sessions
 	- Administrative homepage. 
 	- Can see Question bank
 	- Can see Courses they are in charge of
-	
-/questions - GET
-	- List of questions in the question bank
 
+----Course Controller----
 /courses - GET
 	- List of courses user is in charge of
 
-/assignments - GET
-	- List of assignments
-
----Details---
-----Course Controller----
 /courses/{course_id} - GET
 	- Get course details
-	- Shows all assignments in course
-	- Shows all users in course
+	- Shows information about course
+	- Shows all assignments in list
+	- Shows all users in list
 	
-----Assignment Bank---
-/assignments/{assignment_id} - GET
+/courses/{course_id}/assignments/{assignment_id} - GET
 	- Get assignment details
+	- Can edit assignment here
+	- Can see list of users
 
-/assignments/{assignment_id}/
+/courses/{course_id}/assignments/{assignment_id} - POST
+	- Save assignment details
+	
+/courses/{course_id}/assignments/{assignment_id} - DELETE
+	- Delete assignment
+	
+/courses/{course_id}/assignments/{assignment_id}/answers/{user_id} - GET
+	- Get answers for assignment from user id
+	
+/courses/{course_id}/assignments/createAssignment - GET
+	- Form for creating assignment
+	
+/courses/{course_id}/assignments/createAssignment - POST
+	- Post new assignment
+	
 ----Question Bank----
+/questions - GET
+	- List of questions in the question bank
+
 /questions/{question_id} - GET
 	- Get question details
 	- Can edit questions here
