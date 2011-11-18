@@ -43,7 +43,7 @@ public class CourseController {
 		
 		model.addAttribute("courses", courses);
 		
-		return "courses/listAllCourses";
+		return "courses/listCourses";
 	}
 	
 	
@@ -104,7 +104,7 @@ public class CourseController {
 		
 		model.addAttribute("answers", answers);
 		
-		return "courses/assignments/answers/userAnswers";
+		return "courses/assignments/answers/answerDetails";
 	}
 	
 	@RequestMapping(value = "/courses/{course_id}/assignments/createAssignment", method = RequestMethod.GET)

@@ -11,65 +11,65 @@ Note: There are NO sessions between Android and the Server
 	
 Browser - Professors
 ---Login---
-/login - GET
+/login - GET [/login.jsp]
 	- The login page of the site
 	- Also redirects here on invalid login
 	
-/login - POST
+/j_spring_security_check - POST [spring security]
 	- Destination of the login form from the website
 
 ---Top Level Stuff---
-/admin - GET
+/admin - GET [/admin/home.jsp]
 	- Administrative homepage. 
 	- Can see Question bank
 	- Can see Courses they are in charge of
 
 ----Course Controller----
-/courses - GET
+/courses - GET [/courses/listCourses.jsp]
 	- List of courses user is in charge of
 
-/courses/{course_id} - GET
+/courses/{course_id} - GET [/courses/courseDetails.jsp]
 	- Get course details
 	- Shows information about course
 	- Shows all assignments in list
 	- Shows all users in list
 	
-/courses/{course_id}/assignments/{assignment_id} - GET
+/courses/{course_id}/assignments/{assignment_id} - GET [/courses/assignments/assignmentDetails.jsp]
 	- Get assignment details
 	- Can edit assignment here
 	- Can see list of users
 
-/courses/{course_id}/assignments/{assignment_id} - POST
+/courses/{course_id}/assignments/{assignment_id} - POST [/courses/assignments/assignmentDetails.jsp]
 	- Save assignment details
 	
-/courses/{course_id}/assignments/{assignment_id} - DELETE
+/courses/{course_id}/assignments/{assignment_id} - DELETE [/courses/assignments/assignmentDetails.jsp]
 	- Delete assignment
 	
-/courses/{course_id}/assignments/{assignment_id}/answers/{user_id} - GET
+/courses/{course_id}/assignments/{assignment_id}/answers/{user_id} - GET [/courses/assignments/answers/answerDetails.jsp]
 	- Get answers for assignment from user id
 	
-/courses/{course_id}/assignments/createAssignment - GET
+/courses/{course_id}/assignments/createAssignment - GET [/courses/assignments/createAssignment.jsp]
 	- Form for creating assignment
 	
-/courses/{course_id}/assignments/createAssignment - POST
+/courses/{course_id}/assignments/createAssignment - POST [/courses/assignments/createAssignment.jsp]
 	- Post new assignment
 	
 ----Question Bank----
-/questions - GET
+/questions - GET [/questions/listQuestions.jsp]
 	- List of questions in the question bank
 
-/questions/{question_id} - GET
+/questions/{question_id} - GET [/questions/questionDetails.jsp]
 	- Get question details
 	- Can edit questions here
 	
-/questions/{question_id} - POST
+/questions/{question_id} - POST [/questions/questionDetails.jsp]
 	- Edit question details
 
-/questions/{question_id} - DELETE
+/questions/{question_id} - DELETE [/questions/questionDetails.jsp]
 	- Delete question
 
-/questions/create_question - GET
+/questions/create_question - GET [/questions/createQuestion.jsp]
 	- Form to create question
 
-/questions/create_question - POST
+/questions/create_question - POST [/questions/createQuestion.jsp]
 	- Destination to create question

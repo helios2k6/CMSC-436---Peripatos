@@ -43,7 +43,7 @@ public class QuestionBankController {
 		Question question = questionDao.getQuestionById(id);
 		model.addAttribute("question", question);
 
-		return "questions/editQuestionForm";
+		return "questions/questionDetails";
 	}
 
 	@RequestMapping(value = "/{question_id}", method = RequestMethod.POST)
@@ -52,7 +52,7 @@ public class QuestionBankController {
 			BindingResult result){
 		
 		if(result.hasErrors()){
-			return "questions/editQuestionForm";
+			return "questions/questionDetails";
 		}
 		
 		questionDao.store(question);
@@ -62,7 +62,7 @@ public class QuestionBankController {
 	
 	@RequestMapping(value = "/createQuestion", method = RequestMethod.GET)
 	public String createNewQuestionForm(){
-		return "questions/createQuestionForm";
+		return "questions/createQuestion";
 	}
 	
 	@RequestMapping(value = "/createQuestion", method = RequestMethod.POST)
@@ -70,7 +70,7 @@ public class QuestionBankController {
 			BindingResult result){
 		
 		if(result.hasErrors()){
-			return "questions/createQuestionForm";
+			return "questions/createQuestion";
 		}
 		
 		questionDao.store(question);
