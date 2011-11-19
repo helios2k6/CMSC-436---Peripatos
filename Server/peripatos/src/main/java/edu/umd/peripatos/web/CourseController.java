@@ -2,6 +2,7 @@ package edu.umd.peripatos.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,10 +39,13 @@ public class CourseController {
 	private AnswerDao answerDao;
 	
 	@RequestMapping("/courses")
-	public String listAllCourses(@ModelAttribute("user") User user, Model model){
+	public String listAllCourses(HttpServletRequest request, Model model){
+		User user = userDao.findUserByName(request.getRemoteUser());
+		
 		List<Course> courses = userDao.getCoursesByUser(user);
 		
 		model.addAttribute("courses", courses);
+		model.addAttribute("user_id", request.getRemoteUser());
 		
 		return "courses/listCourses";
 	}
@@ -113,10 +117,14 @@ public class CourseController {
 	}
 	
 	@RequestMapping(value = "/courses/{course_id}/assignments/createAssignment", method = RequestMethod.POST)
-	public String saveAssignmentForm(@ModelAttribute("assignment") @Valid Assignment assignment, BindingResult result){
+	public String saveAssignmentForm(@ModelAttribute("assignment") @Valid Assignment assignment, BindingResult result, HttpServletRequest request){
 		if(result.hasErrors()){
 			return "courses/assignments/createAssignment";
 		}
+		
+		User user = userDao.findUserByName(request.getRemoteUser());
+		
+		assignment.setUser(user);
 		
 		assignmentDao.store(assignment);
 		

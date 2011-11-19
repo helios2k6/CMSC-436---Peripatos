@@ -4,8 +4,10 @@
 <META http-equiv="Content-Type" content="text/html;charset=UTF-8" />
 </head>
 <body>
-	<c:url value="/courses">Courses</c:url>
-	<c:url value="/questions">Question Bank</c:url>
+	<table>
+		<c:forEach items="${answers}" var="answer">
+			<tr><td>${answer.body}</td></tr>
+		</c:forEach>
+	</table>
 </body>
-
 </html>

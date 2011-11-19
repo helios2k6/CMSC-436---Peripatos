@@ -33,7 +33,7 @@ public class QuestionBankController {
 
 		List<Question> questions = questionDao.getQuestionsByUser(user);
 
-		model.addAttribute("allQuestions", questions);
+		model.addAttribute("questions", questions);
 
 		return "questions/listQuestions";	
 	}
