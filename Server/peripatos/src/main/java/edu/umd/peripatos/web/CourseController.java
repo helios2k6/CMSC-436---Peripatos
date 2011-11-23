@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import edu.umd.peripatos.Answer;
 import edu.umd.peripatos.Assignment;
 import edu.umd.peripatos.Course;
+import edu.umd.peripatos.Question;
 import edu.umd.peripatos.User;
 import edu.umd.peripatos.dao.AnswerDao;
 import edu.umd.peripatos.dao.AssignmentDao;
 import edu.umd.peripatos.dao.CourseDao;
+import edu.umd.peripatos.dao.QuestionDao;
 import edu.umd.peripatos.dao.UserDao;
 
 @Controller
@@ -37,6 +39,9 @@ public class CourseController {
 	
 	@Autowired
 	private AnswerDao answerDao;
+	
+	@Autowired
+	private QuestionDao questionDao;
 	
 	@RequestMapping("/courses")
 	public String listAllCourses(HttpServletRequest request, Model model){
@@ -61,12 +66,20 @@ public class CourseController {
 	}
 	
 	@RequestMapping(value = "/courses/{course_id}/assignments/{assignment_id}", method = RequestMethod.GET)
-	public String getAssignmentDetails(@PathVariable("assignment_id")Long id, @PathVariable("course_id")Long cid, Model model){
+	public String getAssignmentDetails(
+			@PathVariable("assignment_id")Long id, 
+			@PathVariable("course_id")Long cid,
+			HttpServletRequest request,
+			Model model){
 		Assignment assignment = assignmentDao.findAssignmentById(id);
 		Course course = courseDao.getCourseById(cid);
 		
+		List<Question> questions = questionDao.getQuestionsByUser(userDao.findUserByName(request.getRemoteUser()));
+		questions.removeAll(assignment.getQuestions());
+		
 		model.addAttribute("assignment", assignment);
 		model.addAttribute("students", course.getStudents());
+		model.addAttribute("availableQuestions", questions);
 		
 		return "courses/assignments/assignmentDetails";
 	}
@@ -112,14 +125,19 @@ public class CourseController {
 	}
 	
 	@RequestMapping(value = "/courses/{course_id}/assignments/createAssignment", method = RequestMethod.GET)
-	public String createAssignmentForm(){
-		return "courses/assignments/createAssignment";
+	public String createAssignmentForm(HttpServletRequest request, Model model){
+		List<Question> questions = questionDao.getQuestionsByUser(userDao.findUserByName(request.getRemoteUser()));
+		
+		model.addAttribute("createForm", true);
+		model.addAttribute("availableQuestions", questions);
+		
+		return "courses/assignments/assignmentDetails";
 	}
 	
 	@RequestMapping(value = "/courses/{course_id}/assignments/createAssignment", method = RequestMethod.POST)
 	public String saveAssignmentForm(@ModelAttribute("assignment") @Valid Assignment assignment, BindingResult result, HttpServletRequest request){
 		if(result.hasErrors()){
-			return "courses/assignments/createAssignment";
+			return "courses/assignments/assignmentDetails";
 		}
 		
 		User user = userDao.findUserByName(request.getRemoteUser());

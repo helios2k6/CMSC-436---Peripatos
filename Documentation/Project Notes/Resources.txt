@@ -48,10 +48,10 @@ Browser - Professors
 /courses/{course_id}/assignments/{assignment_id}/answers/{user_id} - GET [/courses/assignments/answers/answerDetails.jsp]
 	- Get answers for assignment from user id
 	
-/courses/{course_id}/assignments/createAssignment - GET [/courses/assignments/createAssignment.jsp]
+/courses/{course_id}/assignments/createAssignment - GET [/courses/assignments/assignmentDetails.jsp]
 	- Form for creating assignment
 	
-/courses/{course_id}/assignments/createAssignment - POST [/courses/assignments/createAssignment.jsp]
+/courses/{course_id}/assignments/createAssignment - POST [/courses/assignments/assignmentDetails.jsp]
 	- Post new assignment
 	
 ----Question Bank----
@@ -68,10 +68,10 @@ Browser - Professors
 /questions/{question_id} - DELETE [/questions/questionDetails.jsp]
 	- Delete question
 
-/questions/create_question - GET [/questions/createQuestion.jsp]
+/questions/create_question - GET [/questions/questionDetails.jsp]
 	- Form to create question
 
-/questions/create_question - POST [/questions/createQuestion.jsp]
+/questions/create_question - POST [/questions/questionDetails.jsp]
 	- Destination to create question
 
 List of Web Pages
@@ -81,7 +81,5 @@ List of Web Pages
 	4. /courses/courseDetails.jsp
 	5. /courses/assignments/assignmentDetails.jsp
 	6. /courses/assignments/answers/answerDetails.jsp
-	7. /courses/assignments/createAssignment.jsp
-	8. /questions/listQuestions.jsp
-	9. /questions/questionDetails.jsp
-	10. /questions/createQuestion.jsp
+	7. /questions/listQuestions.jsp
+	8. /questions/questionDetails.jsp
