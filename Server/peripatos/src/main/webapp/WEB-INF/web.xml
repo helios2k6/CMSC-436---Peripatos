@@ -25,8 +25,8 @@
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
-		/WEB-INF/spring/userService.xml
-		/WEB-INF/spring/userService-Security.xml		
+		/WEB-INF/spring/peripatos.xml
+		/WEB-INF/spring/peripatos-security.xml		
 		</param-value>
 	</context-param>
 
