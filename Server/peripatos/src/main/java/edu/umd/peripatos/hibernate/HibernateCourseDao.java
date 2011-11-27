@@ -4,15 +4,21 @@ import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.umd.peripatos.Assignment;
 import edu.umd.peripatos.Course;
 import edu.umd.peripatos.dao.CourseDao;
 
+@Transactional
 public class HibernateCourseDao implements CourseDao{
 
 	private SessionFactory sessionFactory;
 
+	public void setSessionFactory(SessionFactory sessionFactory){
+		this.sessionFactory = sessionFactory;
+	}
+	
 	@Override
 	public void store(Course course) {
 		Session session = sessionFactory.getCurrentSession();

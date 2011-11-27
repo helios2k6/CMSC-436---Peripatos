@@ -3,32 +3,31 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
-	<display-name>User Service</display-name>
+	<display-name>Peripatos</display-name>
 
 	<servlet>
-		<servlet-name>userService</servlet-name>
+		<servlet-name>peripatos</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<!-- <init-param> <param-name>contextConfigLocation</param-name> <param-value>/WEB-INF/spring/userService.xml</param-value> 
-			</init-param> -->
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/peripatos.xml</param-value>
+		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/spring/peripatos-security.xml	</param-value>
+	</context-param>
+
 	<servlet-mapping>
-		<servlet-name>userService</servlet-name>
+		<servlet-name>peripatos</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-
-	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>
-		/WEB-INF/spring/peripatos.xml
-		/WEB-INF/spring/peripatos-security.xml		
-		</param-value>
-	</context-param>
 
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>

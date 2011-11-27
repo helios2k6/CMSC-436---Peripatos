@@ -2,7 +2,6 @@ package edu.umd.peripatos;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -58,7 +57,7 @@ public class Assignment {
 		this.name = name;
 	}
 	
-	@OneToMany(mappedBy = "ASSIGNMENT", targetEntity = Question.class, cascade = CascadeType.ALL)
+	@OneToMany
 	@JoinTable(name = "ASSIGNMENT_QUESTION", joinColumns = {@JoinColumn(name = "ASSIGNMENT_ID")}, inverseJoinColumns = {@JoinColumn(name = "QUESTION_ID")})
 	public List<Question> getQuestions() {
 		return questions;

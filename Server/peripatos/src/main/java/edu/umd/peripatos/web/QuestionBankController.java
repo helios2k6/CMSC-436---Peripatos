@@ -2,10 +2,11 @@ package edu.umd.peripatos.web;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -18,6 +19,7 @@ import edu.umd.peripatos.User;
 import edu.umd.peripatos.dao.QuestionDao;
 import edu.umd.peripatos.dao.UserDao;
 
+@Controller
 @RequestMapping("/questions")
 public class QuestionBankController {
 
@@ -28,8 +30,8 @@ public class QuestionBankController {
 	private UserDao userDao;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public String getListOfQuestions(Model model, HttpSession session){
-		User user = userDao.findUserByName((String)session.getAttribute("user"));
+	public String getListOfQuestions(Model model, HttpServletRequest request){
+		User user = userDao.findUserByName(request.getRemoteUser());
 
 		List<Question> questions = questionDao.getQuestionsByUser(user);
 

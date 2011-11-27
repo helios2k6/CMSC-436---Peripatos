@@ -4,8 +4,8 @@
 <META http-equiv="Content-Type" content="text/html;charset=UTF-8" />
 </head>
 <body>
-	<c:url value="/courses">Courses</c:url>
-	<c:url value="/questions">Question Bank</c:url>
+	<a href="<c:url value='/courses' />">Courses</a>
+	<a href="<c:url value='/questions' />">Question Bank</a>
 </body>
 
 </html>

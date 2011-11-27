@@ -5,16 +5,22 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.umd.peripatos.Answer;
 import edu.umd.peripatos.Course;
 import edu.umd.peripatos.User;
 import edu.umd.peripatos.dao.UserDao;
 
+@Transactional
 public class HibernateUserDao implements UserDao {
 
 	private SessionFactory sessionFactory;
 
+	public void setSessionFactory(SessionFactory sessionFactory){
+		this.sessionFactory = sessionFactory;
+	}
+	
 	@Override
 	public User findUserById(Long id) {
 		Session session = sessionFactory.getCurrentSession();
@@ -27,7 +33,7 @@ public class HibernateUserDao implements UserDao {
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery(
 				"FROM User as user " +
-						"WHERE user.name = " + name);
+						"WHERE user.name = '" + name + "'");
 
 		@SuppressWarnings("unchecked")
 		List<User> results = query.list();

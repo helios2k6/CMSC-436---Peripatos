@@ -1,5 +1,6 @@
 package edu.umd.peripatos.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,7 @@ import edu.umd.peripatos.Assignment;
 import edu.umd.peripatos.Course;
 import edu.umd.peripatos.Question;
 import edu.umd.peripatos.User;
+import edu.umd.peripatos.UserType;
 import edu.umd.peripatos.dao.AnswerDao;
 import edu.umd.peripatos.dao.AssignmentDao;
 import edu.umd.peripatos.dao.CourseDao;
@@ -55,6 +57,31 @@ public class CourseController {
 		return "courses/listCourses";
 	}
 	
+	private List<User> getProfessors(Course course){
+		List<User> professors = new ArrayList<User>();
+		List<User> allUsers = course.getUsers();
+		
+		for(User u : allUsers){
+			if(u.getType() == UserType.PROFESSOR){
+				professors.add(u);
+			}
+		}
+		
+		return professors;
+	}
+	
+	private List<User> getStudents(Course course){
+		List<User> students = new ArrayList<User>();
+		List<User> allUsers = course.getUsers();
+		
+		for(User u : allUsers){
+			if(u.getType() == UserType.STUDENT){
+				students.add(u);
+			}
+		}
+		
+		return students;
+	}
 	
 	@RequestMapping(value = "/courses/{course_id}", method = RequestMethod.GET)
 	public String getCourseDetails(@PathVariable("course_id") Long id, Model model){
@@ -78,7 +105,7 @@ public class CourseController {
 		questions.removeAll(assignment.getQuestions());
 		
 		model.addAttribute("assignment", assignment);
-		model.addAttribute("students", course.getStudents());
+		model.addAttribute("students", getStudents(course));
 		model.addAttribute("availableQuestions", questions);
 		
 		return "courses/assignments/assignmentDetails";

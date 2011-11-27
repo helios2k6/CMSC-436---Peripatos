@@ -3,16 +3,17 @@
 	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd
 			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-	<http auto-config="true">
-		<intercept-url pattern="/*" access="PROFESSOR" />
-		<form-login login-page="/login.jsp" default-target-url="/admin"/>
-		<logout/>
-		<remember-me/>
+	<http>
+		<http-basic/>
+		<intercept-url pattern="/*" access="ROLE_PROFESSOR" />
+		<form-login />
+		<logout />
+		<remember-me />
 	</http>
 	<authentication-manager>
 		<authentication-provider>
 			<user-service>
-				<user name="admin" password="password" authorities="PROFESSOR" />
+				<user name="admin" password="password" authorities="ROLE_PROFESSOR" />
 			</user-service>
 		</authentication-provider>
 	</authentication-manager>

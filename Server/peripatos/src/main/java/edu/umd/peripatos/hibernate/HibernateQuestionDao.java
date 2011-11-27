@@ -5,15 +5,21 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.umd.peripatos.Question;
 import edu.umd.peripatos.User;
 import edu.umd.peripatos.dao.QuestionDao;
 
+@Transactional
 public class HibernateQuestionDao implements QuestionDao {
 	
 	private SessionFactory sessionFactory;
 
+	public void setSessionFactory(SessionFactory sessionFactory){
+		this.sessionFactory = sessionFactory;
+	}
+	
 	@Override
 	public void store(Question question) {
 		Session session = sessionFactory.getCurrentSession();

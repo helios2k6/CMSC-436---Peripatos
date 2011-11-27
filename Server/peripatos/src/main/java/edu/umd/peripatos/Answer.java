@@ -63,12 +63,8 @@ public class Answer {
 
 	@NotNull
 	@OneToOne(targetEntity = Assignment.class)
-	@JoinTable(name = "ANSWER_QUESTION_ASSIGNMENT_COURSE", joinColumns = {@JoinColumn(name = "ANSWER_ID", unique = true)},
-	inverseJoinColumns = {
-			@JoinColumn(name="QUESTION_ID"),
-			@JoinColumn(name="ASSIGNMENT_ID"),
-			@JoinColumn(name="COURSE_ID")
-	})
+	@JoinTable(name = "ANSWER_QUESTION_ASSIGNMENT_COURSE", joinColumns = {@JoinColumn(name = "ANSWER_ID")},
+	inverseJoinColumns={@JoinColumn(name="ASSIGNMENT_ID")})
 	public Assignment getAssignment() {
 		return assignment;
 	}
@@ -77,14 +73,11 @@ public class Answer {
 		this.assignment = assignment;
 	}
 
+
 	@NotNull
 	@OneToOne(targetEntity = Question.class)
-	@JoinTable(name = "ANSWER_QUESTION_ASSIGNMENT_COURSE", joinColumns = {@JoinColumn(name = "ANSWER_ID", unique = true)},
-	inverseJoinColumns = {
-			@JoinColumn(name="QUESTION_ID"),
-			@JoinColumn(name="ASSIGNMENT_ID"),
-			@JoinColumn(name="COURSE_ID")
-	})
+	@JoinTable(name = "ANSWER_QUESTION_ASSIGNMENT_COURSE", joinColumns = {@JoinColumn(name = "ANSWER_ID")},
+	inverseJoinColumns={@JoinColumn(name="QUESTION_ID")	})
 	public Question getQuestion() {
 		return question;
 	}
@@ -103,14 +96,11 @@ public class Answer {
 		this.body = body;
 	}
 
+
 	@NotNull
 	@OneToOne(targetEntity = Course.class)
-	@JoinTable(name = "ANSWER_QUESTION_ASSIGNMENT_COURSE", joinColumns = {@JoinColumn(name = "ANSWER_ID", unique = true)},
-	inverseJoinColumns = {
-			@JoinColumn(name="QUESTION_ID"),
-			@JoinColumn(name="ASSIGNMENT_ID"),
-			@JoinColumn(name="COURSE_ID")
-	})
+	@JoinTable(name = "ANSWER_QUESTION_ASSIGNMENT_COURSE", joinColumns = {@JoinColumn(name = "ANSWER_ID")},
+	inverseJoinColumns={@JoinColumn(name="COURSE_ID")})
 	public Course getCourse() {
 		return course;
 	}

@@ -6,16 +6,22 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.umd.peripatos.Assignment;
 import edu.umd.peripatos.Question;
 import edu.umd.peripatos.User;
 import edu.umd.peripatos.dao.AssignmentDao;
 
+@Transactional
 public class HibernateAssignmentDao implements AssignmentDao{
 
 	private SessionFactory sessionFactory;
-
+	
+	public void setSessionFactory(SessionFactory sessionFactory){
+		this.sessionFactory = sessionFactory;
+	}
+	
 	@Override
 	public void store(Assignment assignment) {
 		Session session = sessionFactory.getCurrentSession();
@@ -79,14 +85,14 @@ public class HibernateAssignmentDao implements AssignmentDao{
 	public void addQuestionsToAssignment(Assignment assignment, Collection<Question> questions) {
 		Session session = sessionFactory.getCurrentSession();
 		List<Question> listOfQuestions = assignment.getQuestions();
-		
+
 		for(Question q : questions){
 			if(!listOfQuestions.contains(q)){
 				listOfQuestions.add(q);
 			}
-			
+
 		}
-		
+
 		session.saveOrUpdate(assignment);
 	}
 

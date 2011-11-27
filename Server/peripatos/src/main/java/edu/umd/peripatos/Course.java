@@ -1,9 +1,7 @@
 package edu.umd.peripatos;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -47,7 +45,7 @@ public class Course {
 		this.name = name;
 	}
 	
-	@OneToMany(mappedBy = "COURSE", targetEntity = Assignment.class, cascade = CascadeType.ALL)
+	@OneToMany
 	@JoinTable(name = "COURSE_ASSIGNMENTS", joinColumns = {@JoinColumn(name = "COURSE_ID")}, inverseJoinColumns = {@JoinColumn(name = "ASSIGNMENT_ID")})
 	public List<Assignment> getAssignments() {
 		return assignments;
@@ -57,7 +55,7 @@ public class Course {
 		this.assignments = assignments;
 	}
 	
-	@OneToMany(mappedBy = "COURSE", targetEntity = User.class, cascade = CascadeType.ALL)
+	@OneToMany
 	@JoinTable(name = "COURSE_USER", joinColumns = {@JoinColumn(name = "COURSE_ID")}, inverseJoinColumns = {@JoinColumn(name = "USER_ID")})
 	public List<User> getUsers() {
 		return users;
@@ -65,29 +63,5 @@ public class Course {
 
 	public void setUsers(List<User> users) {
 		this.users = users;
-	}
-	
-	public List<User> getStudents(){
-		List<User> students = new ArrayList<User>();
-		
-		for(User u : users){
-			if(u.getType() == UserType.STUDENT){
-				students.add(u);
-			}
-		}
-		
-		return students;
-	}
-	
-	public List<User> getProfessors(){
-		List<User> professors = new ArrayList<User>();
-		
-		for(User u : users){
-			if(u.getType() == UserType.PROFESSOR){
-				professors.add(u);
-			}
-		}
-		
-		return professors;
 	}
 }
