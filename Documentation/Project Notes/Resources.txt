@@ -11,6 +11,7 @@ Note: There are NO sessions between Android and the Server
 	
 Browser - Professors
 ---Login---
+AUTO-GENERATED
 /login - GET [/login.jsp]
 	- The login page of the site
 	- Also redirects here on invalid login
@@ -22,12 +23,9 @@ Browser - Professors
 /admin - GET [/admin/home.jsp]
 	- Administrative homepage. 
 	- Can see Question bank
-	- Can see Courses they are in charge of
+	- Can see a list of Courses they are in charge of
 
 ----Course Controller----
-/courses - GET [/courses/listCourses.jsp]
-	- List of courses user is in charge of
-
 /courses/{course_id} - GET [/courses/courseDetails.jsp]
 	- Get course details
 	- Shows information about course
@@ -44,15 +42,19 @@ Browser - Professors
 	
 /courses/{course_id}/assignments/{assignment_id} - DELETE [/courses/assignments/assignmentDetails.jsp]
 	- Delete assignment
-	
-/courses/{course_id}/assignments/{assignment_id}/answers/{user_id} - GET [/courses/assignments/answers/answerDetails.jsp]
-	- Get answers for assignment from user id
-	
+
 /courses/{course_id}/assignments/createAssignment - GET [/courses/assignments/assignmentDetails.jsp]
 	- Form for creating assignment
 	
 /courses/{course_id}/assignments/createAssignment - POST [/courses/assignments/assignmentDetails.jsp]
 	- Post new assignment
+
+/courses/{course_id}/assignments/{assignment_id}/answers/ - GET [/courses/assignments/answers/listStudents.jsp]
+	- Show list of students that may have answers to the assignment
+	- Links directly to the resource below with the user_id of the student the professor wants to inspect
+
+/courses/{course_id}/assignments/{assignment_id}/answers/{user_id} - GET [/courses/assignments/answers/answerDetails.jsp]
+	- Get answers for assignment from user id
 	
 ----Question Bank----
 /questions - GET [/questions/listQuestions.jsp]

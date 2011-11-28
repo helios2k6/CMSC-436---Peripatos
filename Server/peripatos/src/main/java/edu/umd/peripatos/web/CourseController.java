@@ -57,6 +57,7 @@ public class CourseController {
 		return "courses/listCourses";
 	}
 	
+	@SuppressWarnings("unused")
 	private List<User> getProfessors(Course course){
 		List<User> professors = new ArrayList<User>();
 		List<User> allUsers = course.getUsers();
@@ -70,6 +71,7 @@ public class CourseController {
 		return professors;
 	}
 	
+	@SuppressWarnings("unused")
 	private List<User> getStudents(Course course){
 		List<User> students = new ArrayList<User>();
 		List<User> allUsers = course.getUsers();
@@ -99,13 +101,11 @@ public class CourseController {
 			HttpServletRequest request,
 			Model model){
 		Assignment assignment = assignmentDao.findAssignmentById(id);
-		Course course = courseDao.getCourseById(cid);
 		
 		List<Question> questions = questionDao.getQuestionsByUser(userDao.findUserByName(request.getRemoteUser()));
 		questions.removeAll(assignment.getQuestions());
 		
 		model.addAttribute("assignment", assignment);
-		model.addAttribute("students", getStudents(course));
 		model.addAttribute("availableQuestions", questions);
 		
 		return "courses/assignments/assignmentDetails";
