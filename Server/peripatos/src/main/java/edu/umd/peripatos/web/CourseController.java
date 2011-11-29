@@ -57,6 +57,7 @@ public class CourseController {
 		return "courses/listCourses";
 	}
 	
+	@SuppressWarnings("unused")
 	private List<User> getProfessors(Course course){
 		List<User> professors = new ArrayList<User>();
 		List<User> allUsers = course.getUsers();
