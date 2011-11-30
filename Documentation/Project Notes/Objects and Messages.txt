@@ -92,7 +92,7 @@ Messages
 Messages from Server to Android App
 	1. Courses, Assignments, and Questions (courses_assignments.xml)
 	2. Answer Submission Receipt (submission_receipt.xml)
-	3. Error Response
+	3. Error Response (error_response.xml)
 	
 Messages from Android App to Server
 	1. Fetch Assignment Request (fetch_assignments.xml)
