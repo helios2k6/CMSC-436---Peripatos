@@ -79,9 +79,8 @@ AUTO-GENERATED
 List of Web Pages
 	1. /login.jsp
 	2. /admin/home.jsp
-	3. /courses/listCourses.jsp
-	4. /courses/courseDetails.jsp
-	5. /courses/assignments/assignmentDetails.jsp
-	6. /courses/assignments/answers/answerDetails.jsp
-	7. /questions/listQuestions.jsp
-	8. /questions/questionDetails.jsp
+	3. /courses/courseDetails.jsp
+	4. /courses/assignments/assignmentDetails.jsp
+	5. /courses/assignments/answers/answerDetails.jsp
+	6. /questions/listQuestions.jsp
+	7. /questions/questionDetails.jsp

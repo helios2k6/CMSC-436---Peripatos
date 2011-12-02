@@ -4,8 +4,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd
 			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<http>
-		<http-basic/>
-		<intercept-url pattern="/*" access="ROLE_PROFESSOR" />
+		<http-basic />
+		<intercept-url pattern="/admin*" access="ROLE_PROFESSOR" />
+		<intercept-url pattern="/courses*" access="ROLE_PROFESSOR" />
+		<intercept-url pattern="/assignments*" access="ROLE_PROFESSOR" />
+		<intercept-url pattern="/questions*" access="ROLE_PROFESSOR" />
 		<form-login />
 		<logout />
 		<remember-me />

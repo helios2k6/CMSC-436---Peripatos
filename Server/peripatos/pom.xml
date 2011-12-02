@@ -63,12 +63,8 @@
 		<!-- <dependency> <groupId>org.springframework</groupId> <artifactId>spring-oxm</artifactId> 
 			<version>${spring.version}</version> </dependency> -->
 		<!-- XStream Library -->
-		<dependency>
-			<groupId>com.thoughtworks.xstream</groupId>
-			<artifactId>xstream</artifactId>
-			<version>1.4.2</version>
-		</dependency>
-
+		<!-- <dependency> <groupId>com.thoughtworks.xstream</groupId> <artifactId>xstream</artifactId> 
+			<version>1.4.2</version> </dependency> -->
 		<!-- JDom -->
 		<dependency>
 			<groupId>jdom</groupId>

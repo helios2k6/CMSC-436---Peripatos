@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <submission_receipt xmlns="http://www.cs.umd.edu/class/fall2011/cmsc436/peripatos">
 	<status><!-- Status Code Goes Here --></status>
-	<assignments>
-		<assignment> <!-- Can have multiple assignments -->
-			<assignment_id>3485743987</assignment_id>
-				<question_ids>
-					<!-- Can have multiple question ids -->
-					<question_id>43593847</question_id>
-					<question_id>34897520</question_id>
-				</question_ids>
-		</assignment>
-	</assignments>
 </submission_receipt>
 
 <!-- 
@@ -18,13 +8,13 @@
 	When the android app sends its answers to the server, the server will response with a "status code" and a list of question ids.
 
 	Status codes: Status codes tell the Android app whether or not the set of answers got properly accepted by the server. 
+	
 	Possible status codes: 
 		1. OK
 		2. ERROR
 	
-	If one or more answers could not be properly processed, the status code returned will be "ERROR". A status code of "OK" means all 
-	of the answers submitted by the Android app were properly mapped to their appropriate question.
+	If one or more answers could not be properly processed, the status code returned will be "ERROR".
 	
-	When an answer is appropriately mapped to an assignment and a question, the assignment_id and the question_id that the answer mapped to
-	is displayed in the response.
+	A status code of "OK" means all of the answers submitted by the Android app were properly mapped to their appropriate question.
+	
 -->

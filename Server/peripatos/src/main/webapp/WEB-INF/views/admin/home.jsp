@@ -1,11 +1,14 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<html>
-<head>
-<META http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-</head>
+<%@include file="../header.jsp"%>
 <body>
-	<a href="<c:url value='/courses' />">Courses</a>
-	<a href="<c:url value='/questions' />">Question Bank</a>
+	<div id="adminHeader">Welcome: ${user.name}</div>
+	<div id="questionBankLink"><a href="/questions">Question Bank</a></div>
+	<div id="adminCourseArea">
+		<ul>
+			<c:forEach items="${courses}" var="course">
+				<li><a href="<c:url value='/courses/${course.id}'></c:url>">${course.name}</a></li>
+			</c:forEach>
+		</ul>
+	</div>
 </body>
 
 </html>
