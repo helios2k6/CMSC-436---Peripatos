@@ -1,14 +1,15 @@
 Project Objects:
 
-Enum User_Type{
-	STUDENT,
-	PROFESSOR
+Enum Authorities{
+	ROLE_STUDENT,
+	ROLE_PROFESSOR
 }
 
 User{
-	Long id; (Generated)
-	String name;
-	User_Type type;
+	String username;
+	String password;
+	Boolean enabled;
+	Authority type;
 }
 
 GeoLocation{

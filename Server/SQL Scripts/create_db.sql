@@ -1,43 +1,49 @@
 CREATE DATABASE PERIPATOS;
 
-CREATE TABLE PERIPATOS.USER(
-	id int,
-	name varchar(45),
-	type varchar(45),
-	PRIMARY KEY(id)
+CREATE TABLE PERIPATOS.USERS(
+	username varchar(45) NOT NULL,
+	password varchar(20) NOT NULL,
+	enabled smallint NOT NULL,
+	PRIMARY KEY(username)
+);
+
+CREATE TABLE PERIPATOS.AUTHORITIES(
+	username varchar(45) NOT NULL,
+	authority varchar(10) NOT NULL,
+	FOREIGN KEY (username) REFERENCES PERIPATOS.USERS
 );
 
 CREATE TABLE PERIPATOS.COURSE(
-	id int,
-	name varchar(512),
+	id int NOT NULL,
+	name varchar(512) NOT NULL,
 	PRIMARY KEY(id)
 );
 
 CREATE TABLE PERIPATOS.GEOLOCATION(
-	id int,
-	latitude double,
-	longitude double,
+	id int NOT NULL,
+	latitude double NOT NULL,
+	longitude double NOT NULL,
 	PRIMARY KEY (id)
 );
 
 CREATE TABLE PERIPATOS.QUESTION(
-	id int,
-	title varchar(512),
+	id int NOT NULL,
+	title varchar(512) NOT NULL,
 	body varchar(4096),
 	PRIMARY KEY (id)
 );
 
 CREATE TABLE PERIPATOS.ANSWER(
-	id int,
-	submission_date date,
-	body varchar(4096),
+	id int NOT NULL,
+	submission_date date NOT NULL,
+	body varchar(4096) NOT NULL,
 	PRIMARY KEY (id)
 );
 
 CREATE TABLE PERIPATOS.ASSIGNMENT(
-	id int,
-	name varchar(512),
-	due_date date,
+	id int NOT NULL,
+	name varchar(512) NOT NULL,
+	due_date date NOT NULL,
 	PRIMARY KEY (id)
 );
 

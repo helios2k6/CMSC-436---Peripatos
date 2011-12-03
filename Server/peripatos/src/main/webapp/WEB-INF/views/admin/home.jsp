@@ -1,5 +1,6 @@
 <%@include file="../header.jsp"%>
 <body>
+	<div class="pageTitle">Administration Home</div>
 	<div id="adminHeader">Welcome: ${user.name}</div>
 	<div id="questionBankLink"><a href="/questions">Question Bank</a></div>
 	<div id="adminCourseArea">

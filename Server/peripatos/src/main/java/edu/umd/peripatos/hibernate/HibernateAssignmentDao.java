@@ -57,7 +57,7 @@ public class HibernateAssignmentDao implements AssignmentDao{
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery(
 				"FROM Assignment as assignment " + 
-						"WHERE assignment.user.id = " + user.getId());
+						"WHERE assignment.user.username = " + user.getUsername());
 		return query.list();
 	}
 

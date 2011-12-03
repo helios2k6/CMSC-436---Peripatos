@@ -22,13 +22,6 @@ public class HibernateUserDao implements UserDao {
 	}
 	
 	@Override
-	public User findUserById(Long id) {
-		Session session = sessionFactory.getCurrentSession();
-		User user = (User) session.get(User.class, id);
-		return user;
-	}
-
-	@Override
 	public User findUserByName(String name) {
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery(
@@ -58,7 +51,7 @@ public class HibernateUserDao implements UserDao {
 		Query query = session.createQuery(
 				"FROM Course as course " +
 						"inner join fetch course.users c_user " + 
-						"WHERE c_user.id = " + user.getId()
+						"WHERE c_user.username = " + user.getUsername()
 				);
 		return query.list();
 	}
@@ -70,7 +63,7 @@ public class HibernateUserDao implements UserDao {
 		Query query = session.createQuery(
 				"From Answer as answer " +
 						"inner join fetch answer.user u" +
-						"WHERE u.id = " + user.getId()
+						"WHERE u.username = " + user.getUsername()
 				);
 		return query.list();
 	}

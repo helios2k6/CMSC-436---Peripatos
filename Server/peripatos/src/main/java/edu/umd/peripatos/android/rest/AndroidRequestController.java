@@ -12,6 +12,7 @@ import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,6 +27,8 @@ import edu.umd.peripatos.Answer;
 import edu.umd.peripatos.Assignment;
 import edu.umd.peripatos.Course;
 import edu.umd.peripatos.ErrorResponseCode;
+import edu.umd.peripatos.Question;
+import edu.umd.peripatos.SubmissionReceiptStatusCode;
 import edu.umd.peripatos.User;
 import edu.umd.peripatos.dao.AnswerDao;
 import edu.umd.peripatos.dao.AssignmentDao;
@@ -80,13 +83,7 @@ public class AndroidRequestController {
 				response = XMLResponseFactory.generateErrorResponse(ErrorResponseCode.INVALID_LOGIN);
 			}
 			
-			XMLOutputter outputter = new XMLOutputter(Format.getCompactFormat());
-			
-			ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-			
-			outputter.output(response, outStream);
-			
-			responseString = new String(outStream.toByteArray());
+			responseString = convertDocumentToString(response);
 			
 		} catch (JDOMException e) {
 			e.printStackTrace();
@@ -109,20 +106,42 @@ public class AndroidRequestController {
 			
 			boolean isAuthenticated = checkLogin(username, password);
 			
-			Document response;
+			Document response = null;
 			
 			if(isAuthenticated){
+				User user = userDao.findUserByName(username);
+				Element courses = root.getChild("courses");
+				
+				List<Answer> answers = processCourses(courses, user);
+				
+				for(Answer a : answers){
+					answerDao.store(a);
+				}
+				
+				response = XMLResponseFactory.generateSubmissionReceipt(SubmissionReceiptStatusCode.OK);
 				
 			}else{
 				response = XMLResponseFactory.generateErrorResponse(ErrorResponseCode.INVALID_LOGIN);
 			}
 			
+			responseString = convertDocumentToString(response);
 		} catch (JDOMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return responseString;
+	}
+	
+	private String convertDocumentToString(Document doc) throws IOException{
+		XMLOutputter outputter = new XMLOutputter(Format.getCompactFormat());
+		
+		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+		
+		outputter.output(doc, outStream);
+		
+		return new String(outStream.toByteArray());
+		
 	}
 	
 	private Document getDocumentFromPayload(String payload) throws JDOMException, IOException{
@@ -138,36 +157,93 @@ public class AndroidRequestController {
 		return result.isAuthenticated();
 	}
 	
-	private List<Answer> processCourses(Element parent, String username){
-		@SuppressWarnings("unchecked")
-		List<Element> children = parent.getChildren();
+	private List<Answer> processCourses(Element parent, User user){
 		List<Answer> answers = new ArrayList<Answer>();
 		
-		for(Element e : children){
+		@SuppressWarnings("unchecked")
+		List<Element> courses = parent.getChildren();
+		
+		for(Element e : courses){
 			if(e.getName().equalsIgnoreCase("course")){
-				long courseId = Long.parseLong(e.getChild("course_id").getText());
-				
-				Course course = courseDao.getCourseById(courseId);
-				
-				if(course == null){
-					continue;
-				}
-				
-				Element assignments = e.getChild("assignments");
-				
-				answers.addAll(processAssignments(assignments, course));
+				processCourse(e, user, answers);
 			}
 		}
 		
 		return answers;
 	}
 	
-	private List<Answer> processAssignments(Element parent, Course course){
+	private void processCourse(Element parent, User user, List<Answer> answers){
+		long courseId = Long.parseLong(parent.getChild("course_id").getText());
 		
-		return null;
+		Course course = courseDao.findCourseById(courseId);
+		
+		if(course == null){
+			return;
+		}
+		
+		Element assignments = parent.getChild("assignments");
+		
+		processAssignments(assignments, user, course, answers);
 	}
 	
-	private List<Answer> processQuestions(Element parent, Course course, Assignment assignment){
-		return null;
+	private void processAssignments(Element parent, User user, Course course, List<Answer> answers){
+		@SuppressWarnings("unchecked")
+		List<Element> assignments = parent.getChildren();
+
+		for(Element e : assignments){
+			if(e.getName().equalsIgnoreCase("assignment")){
+				processAssignment(e, user, course, answers);
+			}
+		}
+	}
+	
+	private void processAssignment(Element parent, User user, Course course, List<Answer> answers){
+		long assignmentId = Long.parseLong(parent.getChild("assignment_id").getText());
+		Element questions = parent.getChild("questions");
+		
+		Assignment assignment = assignmentDao.findAssignmentById(assignmentId);
+		
+		if(assignment == null){
+			return;
+		}
+		
+		processQuestions(questions, user, course, assignment, answers);
+	}
+	
+	private void processQuestions(Element parent, User user, Course course, Assignment assignment, List<Answer> answers){
+		@SuppressWarnings("unchecked")
+		List<Element> questions = parent.getChildren();
+		
+		for(Element e : questions){
+			if(e.getName().equalsIgnoreCase("question")){
+				Answer answer = processQuestion(e, user, course, assignment);
+				if(answer != null){
+					answers.add(answer);
+				}
+			}
+		}
+	
+	}
+	
+	private Answer processQuestion(Element parent, User user, Course course, Assignment assignment){
+		Answer answer = new Answer();
+		
+		long questionId = Long.parseLong(parent.getChild("question_id").getText());
+		String answerBody = parent.getChild("answer_body").getText();
+		
+		Question question = questionDao.getQuestionById(questionId);
+		
+		if(question == null){
+			return null;
+		}
+		
+		answer.setCourse(course);
+		answer.setAssignment(assignment);
+		answer.setQuestion(question);
+		answer.setBody(answerBody);
+		answer.setSubmissionDate(new DateTime());
+		answer.setUser(user);
+		
+		return answer;
 	}
 }

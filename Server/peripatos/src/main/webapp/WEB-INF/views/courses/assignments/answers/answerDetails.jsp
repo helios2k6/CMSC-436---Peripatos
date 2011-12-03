@@ -1,13 +1,15 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<html>
-<head>
-<META http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-</head>
+<%@include file="../../../header.jsp"%>
 <body>
-	<table>
+	<div id="titleArea">Answer for Assignment: ${assignment.name}</div>
+	<div id="bodyArea">
 		<c:forEach items="${answers}" var="answer">
-			<tr><td>${answer.body}</td></tr>
+			<div class="questionTitleForAnswer">Question:
+				${answer.question.title}</div>
+			<div class="responseTitle">
+				Response:
+				<div class="responseBody">${answer.body}</div>
+			</div>
 		</c:forEach>
-	</table>
+	</div>
 </body>
 </html>

@@ -4,48 +4,63 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "USER")
+@Table(name = "USERS")
 public class User {
-	private Long id;
-	private String name;
-	private UserType type;
+	private String username;
+	private String password;
+	private Authority authority;
+	private short enabled;
 	
 	@Id
 	@NotNull
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID")
-	public Long getId() {
-		return id;
+	@Column(name = "USERNAME")
+	public String getUsername() {
+		return username;
 	}
 	
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	@NotNull
-	@Column(name = "NAME")
-	public String getName() {
-		return name;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	
 	@NotNull
+	@Column(name = "PASSWORD")
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	@NotNull
+	@OneToOne
+	@JoinTable(name = "AUTHORITIES", joinColumns = {@JoinColumn(name = "AUTHORITY")})
 	@Enumerated(EnumType.STRING)
-	public UserType getType() {
-		return type;
+	public Authority getAuthority() {
+		return authority;
 	}
 	
-	public void setType(UserType type) {
-		this.type = type;
+	public void setAuthority(Authority authority) {
+		this.authority = authority;
 	}
+	
+	@NotNull
+	@Column(name = "ENABLED")
+	public short getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(short enabled) {
+		this.enabled = enabled;
+	}
+	
+	
 }

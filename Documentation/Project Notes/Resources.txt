@@ -51,9 +51,9 @@ AUTO-GENERATED
 
 /courses/{course_id}/assignments/{assignment_id}/answers/ - GET [/courses/assignments/answers/listStudents.jsp]
 	- Show list of students that may have answers to the assignment
-	- Links directly to the resource below with the user_id of the student the professor wants to inspect
+	- Links directly to the resource below with the username of the student the professor wants to inspect
 
-/courses/{course_id}/assignments/{assignment_id}/answers/{user_id} - GET [/courses/assignments/answers/answerDetails.jsp]
+/courses/{course_id}/assignments/{assignment_id}/answers/{username} - GET [/courses/assignments/answers/answerDetails.jsp]
 	- Get answers for assignment from user id
 	
 ----Question Bank----
@@ -81,6 +81,7 @@ List of Web Pages
 	2. /admin/home.jsp
 	3. /courses/courseDetails.jsp
 	4. /courses/assignments/assignmentDetails.jsp
-	5. /courses/assignments/answers/answerDetails.jsp
-	6. /questions/listQuestions.jsp
-	7. /questions/questionDetails.jsp
+	5. /courses/assignments/answers/listStudents.jsp
+	6. /courses/assignments/answers/answerDetails.jsp
+	7. /questions/listQuestions.jsp
+	8. /questions/questionDetails.jsp

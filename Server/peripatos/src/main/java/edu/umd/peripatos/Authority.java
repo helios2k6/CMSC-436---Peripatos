@@ -1,11 +1,11 @@
 package edu.umd.peripatos;
 
-public enum UserType {
-	STUDENT("STUDENT"),
-	PROFESSOR("PROFESSOR");
+public enum Authority {
+	STUDENT("ROLE_STUDENT"),
+	PROFESSOR("ROLE_PROFESSOR");
 	
 	private String name;
-	private UserType(String name){
+	private Authority(String name){
 		this.name = name;
 	}
 	

@@ -11,7 +11,6 @@ public interface UserDao {
 	 * Do not create, store, or delete users. This must be done by an administrator
 	 */
 	
-	public User findUserById(Long id);
 	public User findUserByName(String name);
 	
 	public List<User> getAllUsers();

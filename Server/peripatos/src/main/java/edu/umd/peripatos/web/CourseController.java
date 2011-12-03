@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import edu.umd.peripatos.Answer;
 import edu.umd.peripatos.Assignment;
+import edu.umd.peripatos.Authority;
 import edu.umd.peripatos.Course;
 import edu.umd.peripatos.Question;
 import edu.umd.peripatos.User;
-import edu.umd.peripatos.UserType;
 import edu.umd.peripatos.dao.AnswerDao;
 import edu.umd.peripatos.dao.AssignmentDao;
 import edu.umd.peripatos.dao.CourseDao;
@@ -65,7 +65,7 @@ public class CourseController {
 		List<User> allUsers = course.getUsers();
 
 		for(User u : allUsers){
-			if(u.getType() == UserType.PROFESSOR){
+			if(u.getAuthority() == Authority.PROFESSOR){
 				professors.add(u);
 			}
 		}
@@ -73,13 +73,12 @@ public class CourseController {
 		return professors;
 	}
 
-	@SuppressWarnings("unused")
 	private List<User> getStudents(Course course){
 		List<User> students = new ArrayList<User>();
 		List<User> allUsers = course.getUsers();
 
 		for(User u : allUsers){
-			if(u.getType() == UserType.STUDENT){
+			if(u.getAuthority() == Authority.STUDENT){
 				students.add(u);
 			}
 		}
@@ -89,9 +88,10 @@ public class CourseController {
 
 	@RequestMapping(value = "/courses/{course_id}", method = RequestMethod.GET)
 	public String getCourseDetails(@PathVariable("course_id") Long id, Model model){
-		Course course = courseDao.getCourseById(id);
+		Course course = courseDao.findCourseById(id);
 
 		model.addAttribute("course", course);
+		model.addAttribute("students", getStudents(course));
 
 		return "courses/courseDetails";
 	}
@@ -136,18 +136,36 @@ public class CourseController {
 		return "courses/courseDetails";
 	}
 
-	@RequestMapping(value = "/courses/{course_id}/assignments/{assignment_id}/answers/{user_id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/courses/{course_id}/assignments/{assignment_id}/answers", method = RequestMethod.GET)
+	public String getStudentListForAnswers(
+			@PathVariable("course_id") Long cid, 
+			@PathVariable("assignment_id") Long aid,
+			Model model){
+		
+		Course course = courseDao.findCourseById(cid);
+		Assignment assignment = assignmentDao.findAssignmentById(aid);
+		
+		model.addAttribute("students", getStudents(course));
+		model.addAttribute("assignment", assignment);
+		
+		return "courses/assignments/answers/listStudents";
+	}
+	
+	@RequestMapping(value = "/courses/{course_id}/assignments/{assignment_id}/answers/{username}", method = RequestMethod.GET)
 	public String getAnswersFromStudent(
 			@PathVariable("course_id") Long cid, 
 			@PathVariable("assignment_id") Long aid, 
-			@PathVariable("user_id")Long uid, 
+			@PathVariable("username")String username, 
 			Model model){
 		Assignment assignment = assignmentDao.findAssignmentById(aid);
-		User user = userDao.findUserById(uid);
-		Course course = courseDao.getCourseById(cid);
+		User user = userDao.findUserByName(username);
+		Course course = courseDao.findCourseById(cid);
 
 		List<Answer> answers = answerDao.getAnswerByAssignmentAndUserAndCourse(assignment, user, course);
-
+		
+		model.addAttribute("user", user);
+		model.addAttribute("course", course);
+		model.addAttribute("assignment", assignment);
 		model.addAttribute("answers", answers);
 
 		return "courses/assignments/answers/answerDetails";

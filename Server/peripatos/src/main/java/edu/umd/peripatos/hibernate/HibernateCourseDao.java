@@ -32,7 +32,7 @@ public class HibernateCourseDao implements CourseDao{
 	}
 
 	@Override
-	public Course getCourseById(Long id) {
+	public Course findCourseById(Long id) {
 		Session session = sessionFactory.getCurrentSession();
 		Course course = (Course)session.get(Course.class, id);
 		return course;

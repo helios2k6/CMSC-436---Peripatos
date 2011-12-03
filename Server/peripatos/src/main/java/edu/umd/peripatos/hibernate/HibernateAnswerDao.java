@@ -48,7 +48,7 @@ public class HibernateAnswerDao implements AnswerDao{
 		Query query = session.createQuery(
 				"FROM Answer as answer " +
 						"WHERE answer.assignment.id = " + assignment.getId() + " " +
-						"AND answer.user.id = " + user.getId() + " " +
+						"AND answer.user.username = " + user.getUsername() + " " +
 						"AND answer.question.id = " + question.getId());
 
 		@SuppressWarnings("unchecked")
@@ -68,7 +68,7 @@ public class HibernateAnswerDao implements AnswerDao{
 		Query query = session.createQuery(
 				"FROM Answer as answer " +
 						"WHERE answer.assignment.id = " + assignment.getId() + " " +
-						"AND answer.user.id = " + user.getId() + " " +
+						"AND answer.user.username = " + user.getUsername() + " " +
 						"AND answer.course.id = " + course.getId()
 				);
 
