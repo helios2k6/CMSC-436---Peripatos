@@ -6,6 +6,7 @@
 		$("#dueDate").datePicker({ dateFormat: 'ATOM' });
 		
 		//Set sortable
+		
 	});
 </script>
 </head>
