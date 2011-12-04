@@ -2,6 +2,7 @@ package edu.umd.peripatos.hibernate;
 
 import java.util.List;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +36,10 @@ public class HibernateCourseDao implements CourseDao{
 	public Course findCourseById(Long id) {
 		Session session = sessionFactory.getCurrentSession();
 		Course course = (Course)session.get(Course.class, id);
+		
+		//Have to force Eager Selection
+		Hibernate.initialize(course.getAssignments());
+		Hibernate.initialize(course.getUsers());
 		return course;
 	}
 

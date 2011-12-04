@@ -1,4 +1,5 @@
 <%@include file="../../../header.jsp"%>
+</head>
 <body>
 	<div id="title">Choose Which Student's Answers To View</div>
 	<div id="listStudentArea">

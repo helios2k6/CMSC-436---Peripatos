@@ -65,7 +65,7 @@ public class CourseController {
 		List<User> allUsers = course.getUsers();
 
 		for(User u : allUsers){
-			if(u.getAuthority() == Authority.PROFESSOR){
+			if(u.getAuthority() == Authority.ROLE_PROFESSOR){
 				professors.add(u);
 			}
 		}
@@ -78,7 +78,7 @@ public class CourseController {
 		List<User> allUsers = course.getUsers();
 
 		for(User u : allUsers){
-			if(u.getAuthority() == Authority.STUDENT){
+			if(u.getAuthority() == Authority.ROLE_STUDENT){
 				students.add(u);
 			}
 		}

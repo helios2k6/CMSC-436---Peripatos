@@ -1,11 +1,13 @@
 <%@include file="../header.jsp"%>
+</head>
 <body>
-	<div class="pageTitle">Question Bank</div>
-	<h1>Questions</h1>
+	<h1>Question Bank</h1>
+	<h2>Questions</h2>
+	<a href="<c:url value='/questions/createQuestion' />">Create Question</a>
 	<div class="unorderedList">
 		<ul>
 			<c:forEach items="${questions}" var="question">
-				<li><a href="<c:url value='${question.id}'/>">${question.title}</a></li>
+				<li><a href="<c:url value='/questions/${question.id}'/>">${question.title}</a></li>
 			</c:forEach>
 		</ul>
 	</div>

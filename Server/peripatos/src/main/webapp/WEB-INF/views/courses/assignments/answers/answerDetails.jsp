@@ -1,4 +1,5 @@
 <%@include file="../../../header.jsp"%>
+</head>
 <body>
 	<div id="titleArea">Answer for Assignment: ${assignment.name}</div>
 	<div id="bodyArea">

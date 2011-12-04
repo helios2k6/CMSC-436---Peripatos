@@ -1,8 +1,9 @@
 <%@include file="../header.jsp"%>
+</head>
 <body>
 	<div class="pageTitle">Administration Home</div>
-	<div id="adminHeader">Welcome: ${user.name}</div>
-	<div id="questionBankLink"><a href="/questions">Question Bank</a></div>
+	<div id="adminHeader">Welcome: ${user.username}</div>
+	<div id="questionBankLink"><a href="<c:url value='/questions'/>">Question Bank</a></div>
 	<div id="adminCourseArea">
 		<ul>
 			<c:forEach items="${courses}" var="course">

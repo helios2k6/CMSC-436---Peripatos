@@ -3,6 +3,7 @@ package edu.umd.peripatos.hibernate;
 import java.util.Collection;
 import java.util.List;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -38,6 +39,8 @@ public class HibernateAssignmentDao implements AssignmentDao{
 	public Assignment findAssignmentById(Long id) {
 		Session session = sessionFactory.getCurrentSession();
 		Assignment assignment = (Assignment) session.get(Assignment.class, id);
+		
+		Hibernate.initialize(assignment.getQuestions());
 		return assignment;
 	}
 

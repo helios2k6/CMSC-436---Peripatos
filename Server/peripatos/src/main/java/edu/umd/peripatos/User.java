@@ -5,15 +5,13 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "USERS")
 public class User {
+	
 	private String username;
 	private String password;
 	private Authority authority;
@@ -39,10 +37,8 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-	@NotNull
-	@OneToOne
-	@JoinTable(name = "AUTHORITIES", joinColumns = {@JoinColumn(name = "AUTHORITY")})
+	
+	@Column(name = "AUTHORITY")
 	@Enumerated(EnumType.STRING)
 	public Authority getAuthority() {
 		return authority;

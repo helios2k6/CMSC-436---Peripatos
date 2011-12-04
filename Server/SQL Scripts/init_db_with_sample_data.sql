@@ -1,0 +1,6 @@
+SOURCE drop_database.sql
+SOURCE create_db.sql
+SOURCE sample_data/create_sample_professor.sql
+SOURCE sample_data/create_sample_student.sql
+SOURCE sample_data/create_sample_course.sql
+SOURCE sample_data/insert_professor_and_student_into_course.sql

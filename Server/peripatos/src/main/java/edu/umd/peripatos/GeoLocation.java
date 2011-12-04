@@ -1,9 +1,9 @@
 package edu.umd.peripatos;
 
+import java.util.Random;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -11,14 +11,19 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "GeoLocation")
 public class GeoLocation {
+	
+	private static final Random random = new Random();
+	
 	private Long id;
 	private Double latitude;
 	private Double longitude;
 	
+	public GeoLocation(){
+		id = random.nextLong();
+	}
+	
 	@Id
-	@NotNull
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID")
+	@Column(name = "GEOLOCATION_ID")
 	public Long getId() {
 		return id;
 	}

@@ -19,4 +19,3 @@
 	href="css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
 <!-- Custom Style Sheet -->
 <link type="text/css" href="css/style.css" rel="stylesheet" />
-</head>

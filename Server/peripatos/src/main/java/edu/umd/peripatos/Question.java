@@ -1,19 +1,24 @@
 package edu.umd.peripatos;
 
+import java.util.Random;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "QUESTION")
 public class Question {
+	
+	private static final Random random = new Random();
+	
 	private Long id;
 	private String title;
 	private String body;
@@ -22,10 +27,12 @@ public class Question {
 	private User user;
 	private GeoLocation location;
 	
+	public Question(){
+		id = random.nextLong();
+	}
+	
 	@Id
-	@NotNull
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID")
+	@Column(name = "QUESTION_ID")
 	public Long getId() {
 		return id;
 	}
@@ -35,7 +42,7 @@ public class Question {
 	}
 	
 	@ManyToOne
-	@JoinTable(name = "USER_QUESTION", joinColumns = {@JoinColumn(name = "USER_ID")})
+	@JoinTable(name = "USER_QUESTION", joinColumns = {@JoinColumn(name = "QUESTION_ID")}, inverseJoinColumns = {@JoinColumn(name="USERNAME")})
 	public User getUser() {
 		return user;
 	}
@@ -64,8 +71,9 @@ public class Question {
 		this.body = body;
 	}
 	
-	@ManyToOne
-	@JoinTable(name = "QUESTION_GEOLOCATION", joinColumns = {@JoinColumn(name = "QUESTION_ID")})
+	@NotNull
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinTable(name = "QUESTION_GEOLOCATION", joinColumns = {@JoinColumn(name="QUESTION_ID")}, inverseJoinColumns = {@JoinColumn(name = "GEOLOCATION_ID")})
 	public GeoLocation getLocation() {
 		return location;
 	}

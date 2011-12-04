@@ -1,0 +1,1 @@
+INSERT INTO PERIPATOS.COURSE VALUES(1, "FALL 2011 - CMSC 436 - Programming Handheld Systems");

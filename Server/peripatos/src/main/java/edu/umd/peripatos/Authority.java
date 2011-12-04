@@ -1,10 +1,11 @@
 package edu.umd.peripatos;
 
 public enum Authority {
-	STUDENT("ROLE_STUDENT"),
-	PROFESSOR("ROLE_PROFESSOR");
+	ROLE_STUDENT("ROLE_STUDENT"),
+	ROLE_PROFESSOR("ROLE_PROFESSOR");
 	
 	private String name;
+	
 	private Authority(String name){
 		this.name = name;
 	}

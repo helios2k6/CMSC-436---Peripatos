@@ -1,11 +1,10 @@
 package edu.umd.peripatos;
 
 import java.util.List;
+import java.util.Random;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -19,6 +18,8 @@ import org.joda.time.DateTime;
 @Entity
 @Table(name="ASSIGNMENT")
 public class Assignment {
+	private static final Random random = new Random();
+	
 	private Long id;
 	private String name;
 	private DateTime dueDate;
@@ -27,8 +28,11 @@ public class Assignment {
 	private User user;
 	private List<Question> questions;
 	
+	public Assignment(){
+		id = random.nextLong();
+	}
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getId() {
 		return id;
 	}
@@ -38,7 +42,9 @@ public class Assignment {
 	}
 	
 	@ManyToOne
-	@JoinTable(name = "USER_ASSIGNMENT", joinColumns = {@JoinColumn(name = "USER_ID")})
+	@JoinTable(name = "USER_ASSIGNMENT", 
+	joinColumns = {@JoinColumn(name = "ASSIGNMENT_ID")}, 
+	inverseJoinColumns={@JoinColumn(name = "USERNAME")})
 	public User getUser() {
 		return user;
 	}

@@ -20,13 +20,13 @@ public class HibernateUserDao implements UserDao {
 	public void setSessionFactory(SessionFactory sessionFactory){
 		this.sessionFactory = sessionFactory;
 	}
-	
+
 	@Override
 	public User findUserByName(String name) {
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery(
 				"FROM User as user " +
-						"WHERE user.name = '" + name + "'");
+						"WHERE user.username = '" + name + "'");
 
 		@SuppressWarnings("unchecked")
 		List<User> results = query.list();
@@ -48,11 +48,11 @@ public class HibernateUserDao implements UserDao {
 	@Override
 	public List<Course> getCoursesByUser(User user) {
 		Session session = sessionFactory.getCurrentSession();
-		Query query = session.createQuery(
-				"FROM Course as course " +
-						"inner join fetch course.users c_user " + 
-						"WHERE c_user.username = " + user.getUsername()
-				);
+		String queryString = "FROM Course as course " +
+				"inner join fetch course.users as c_user " + 
+				"WHERE c_user.username = '" + user.getUsername() + "'";
+
+		Query query = session.createQuery(queryString);
 		return query.list();
 	}
 

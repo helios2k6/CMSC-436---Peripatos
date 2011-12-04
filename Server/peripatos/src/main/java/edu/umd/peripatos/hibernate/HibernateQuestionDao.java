@@ -45,7 +45,7 @@ public class HibernateQuestionDao implements QuestionDao {
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery(
 				"FROM Question as question " +
-				"WHERE question.user.username = " + user.getUsername());
+				"WHERE question.user.username = '" + user.getUsername() +"'");
 		
 		return query.list();
 	}

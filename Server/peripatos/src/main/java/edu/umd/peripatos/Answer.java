@@ -1,9 +1,9 @@
 package edu.umd.peripatos;
 
+import java.util.Random;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -17,6 +17,9 @@ import org.joda.time.DateTime;
 @Entity
 @Table(name = "ANSWER")
 public class Answer {
+
+	private static final Random random = new Random();
+
 	private Long id;
 	private DateTime submissionDate;
 	private String body;
@@ -26,12 +29,12 @@ public class Answer {
 	private Assignment assignment;
 	private Question question;
 
-	public Answer(){}
+	public Answer(){
+		id = random.nextLong();
+	}
 
 	@Id
-	@NotNull
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID")
+	@Column(name = "ANSWER_ID")
 	public Long getId() {
 		return id;
 	}
@@ -42,7 +45,9 @@ public class Answer {
 
 	@NotNull
 	@ManyToOne
-	@JoinTable(name = "USER_ANSWER", joinColumns = {@JoinColumn(name = "USER_ID")})
+	@JoinTable(name = "USER_ANSWER", 
+	joinColumns = {@JoinColumn(name = "ANSWER_ID")}, 
+	inverseJoinColumns = {@JoinColumn(name="USERNAME")})
 	public User getUser() {
 		return user;
 	}
@@ -63,7 +68,8 @@ public class Answer {
 
 	@NotNull
 	@OneToOne(targetEntity = Assignment.class)
-	@JoinTable(name = "ANSWER_QUESTION_ASSIGNMENT_COURSE", joinColumns = {@JoinColumn(name = "ANSWER_ID")},
+	@JoinTable(name = "ANSWER_QUESTION_ASSIGNMENT_COURSE", 
+	joinColumns = {@JoinColumn(name = "ANSWER_ID")},
 	inverseJoinColumns={@JoinColumn(name="ASSIGNMENT_ID")})
 	public Assignment getAssignment() {
 		return assignment;

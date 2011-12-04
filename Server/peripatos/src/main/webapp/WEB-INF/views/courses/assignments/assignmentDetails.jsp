@@ -1,15 +1,20 @@
 <%@include file="../../header.jsp"%>
+
+<script type="text/javascript">
+	
+</script>
+</head>
 <body>
-	<form:form method="POST">
+	<form:form method="POST" modelAttribute="assignment">
 		<table>
 			<tr>
 				<td>Name:</td>
-				<td><input type="text" name="name" value="${assignment.name}" /></td>
+				<td><form:input path="name" value="${assignment.name}" /></td>
 			</tr>
 			<tr>
 				<td>Date:</td>
-				<td><input type="text" name="dueDate" readonly="readonly"
-					value="${assignment.dueDate}" /></td>
+				<td><form:input path="dueDate" readonly="readonly"
+						value="${assignment.dueDate}" /></td>
 			</tr>
 		</table>
 		<div id="questionPickerHeader">
@@ -31,10 +36,13 @@
 			</div>
 		</div>
 		<div id="formFooter">
-			<input type="button" name="cancel" value="Cancel" /> <input
-				type="reset" name="reset" value="Reset" /> <input type="submit"
-				name="submit" value="Submit" />
+			<input type="submit" name="submit" value="Save" /> <input
+				type="button" name="cancel" value="Cancel" />
 		</div>
+		<form:hidden path="questions" />
+	</form:form>
+	<form:form method="DELETE">
+		<input type="submit" value="Delete" />
 	</form:form>
 </body>
 </html>

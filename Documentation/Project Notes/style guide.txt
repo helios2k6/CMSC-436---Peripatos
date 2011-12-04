@@ -1,0 +1,33 @@
+Style Guide
+
+Global Page Styles:
+	+ jQuery UI Theme custom "Pepper Grinder"
+	+ Major Font Face: Times New Roman
+	
+Page Titles
+	+ h1 tag
+	+ div class "pageTitleClass"
+	
+Forms
+	+ div class "formClass"
+	+ Light gray outline
+
+Labels:
+	+ div class "formLabelClass"
+Text Input:
+	+ div class "formTextInputClass"
+
+Larger Text Input:
+	+ div class "formLargerTextInputClass"
+	
+Buttons:
+Delete Button:
+	+ div class "formDeleteButtonClass"
+	+ hover color: #DB1853
+
+Submit Button:
+	+ div class "formSubmitButtonClass"
+	+ text value: "Save"
+	
+Cancel Button: 
+	
