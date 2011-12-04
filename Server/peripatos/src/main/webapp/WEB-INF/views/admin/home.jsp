@@ -3,6 +3,9 @@
 <body>
 	<div class="pageTitle">Administration Home</div>
 	<div id="adminHeader">Welcome: ${user.username}</div>
+	<!--
+	<a href="<spring:url value="/j_spring_security_logout" htmlEscape="true" />">Logout</a>
+	-->
 	<div id="questionBankLink"><a href="<c:url value='/questions'/>">Question Bank</a></div>
 	<div id="adminCourseArea">
 		<ul>

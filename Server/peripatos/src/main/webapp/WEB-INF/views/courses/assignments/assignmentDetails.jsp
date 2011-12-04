@@ -1,12 +1,19 @@
 <%@include file="../../header.jsp"%>
 
 <script type="text/javascript">
-	
+	$(function(){
+		//Set Date Picker for the due date thing
+		$("#dueDate").datePicker({ dateFormat: 'ATOM' });
+		
+		//Set sortable
+	});
 </script>
 </head>
 <body>
+<div class = "mainBodyAreaClass">
+	<div class = "formClass">
 	<form:form method="POST" modelAttribute="assignment">
-		<table>
+		<table class="tableClass">
 			<tr>
 				<td>Name:</td>
 				<td><form:input path="name" value="${assignment.name}" /></td>
@@ -21,18 +28,18 @@
 			<div id="questionTitle">Assigned Questions</div>
 			<div id="questionBankTitle">Available Questions</div>
 			<div id="assignedQuestionsList">
-				<ol>
+				<ul>
 					<c:forEach items="${assignment.questions}" var="assignedQuestion">
 						<li>${assignedQuestion.title}</li>
 					</c:forEach>
-				</ol>
+				</ul>
 			</div>
 			<div id="availableQuestionsList">
-				<ol>
+				<ul>
 					<c:forEach items="${availableQuestions}" var="availableQuestion">
 						<li>${availableQuestion.title}</li>
 					</c:forEach>
-				</ol>
+				</ul>
 			</div>
 		</div>
 		<div id="formFooter">
@@ -44,5 +51,7 @@
 	<form:form method="DELETE">
 		<input type="submit" value="Delete" />
 	</form:form>
+	</div>
+</div>
 </body>
 </html>

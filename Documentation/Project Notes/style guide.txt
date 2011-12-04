@@ -8,9 +8,31 @@ Page Titles
 	+ h1 tag
 	+ div class "pageTitleClass"
 	
+Page Subtitle
+	+ h2 tag
+	+ div class "pageSubtitleClass"
+
+Main Body Area
+	+ div class "mainBodyAreaClass"
+
+List Title
+	+ div class "listTitleClass"
+	
+List Items
+	+ div class "listItemClass"
+
+Table
+	+ div class "tableClass"
+
+Link
+	+ Color: #b83400
+
 Forms
 	+ div class "formClass"
 	+ Light gray outline
+
+Form Element
+	+ div class "formElement"
 
 Labels:
 	+ div class "formLabelClass"
@@ -26,8 +48,76 @@ Delete Button:
 	+ hover color: #DB1853
 
 Submit Button:
-	+ div class "formSubmitButtonClass"
+	+ div class "buttonClass"
 	+ text value: "Save"
 	
 Cancel Button: 
+	+ div class "buttonClass"
+	+ text value: "Cancel"
+
+Specific Styles:
+Answer Details
+	+ Question/Response Entry
+		+ div class "questionResponseClass
+	+ Question Section
+		+ div class "questionResponseQuestionTitleClass"
+	+ Response Section
+		+ div class "questionResponseBodyClass"
+
+Student List for Submitted Answers
+	+ Assignment Label
+		+ formLabelClass
+	+ Student Label
+		+ formLabelClass
+	+ Student list
+		+ mainBodyAreaClass
+		+ listItemClass
+		
+Question Details/Form
+	+ formClass
 	
+	+ Elements
+		+ formElementClass
+	
+	+ Map Area
+		+ mapAreaClass
+		
+Assignment Details/Form
+	+ formClass
+	
+	+ Elements
+		+ formElementClass
+		
+	+ Question | Question Bank Split Area
+		+ Label
+			+ formLabelClass
+		+ Entry
+			+ div class "assignmentQuestionEntryClass"
+
+Question Bank
+	+  Label
+		+ formLabelClass
+	+ List
+		+ listElementClass
+		
+Course Details
+	+ Assignment List Area
+		+ Table
+			+ Rows: Assignment, Due date, <link area> "View Answers"
+			+ tableClass
+	+ Students List Area
+		+ Label
+			+ formLabelClass
+		+ List Elements
+			+ listElementClass
+			
+Banner
+	+ div class "bannerClass"
+	+ App Title
+		+ div class "appTitleClass"
+	+ Question Bank Link
+		+ div class "questionBankLinkBannerClass"
+	+ Courses Link
+		+ div class "coursesLinkBannerCLass"
+	+ Logout Link
+		+div class "logoutLinkClass"
