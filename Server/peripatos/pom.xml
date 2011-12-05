@@ -18,6 +18,13 @@
 	</properties>
 
 	<dependencies>
+		<!-- Log4j Dependency -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.16</version>
+		</dependency>
+
 		<!-- Spring Framework -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -59,12 +66,6 @@
 			<artifactId>spring-orm</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		<!-- Spring XStream marshaller package -->
-		<!-- <dependency> <groupId>org.springframework</groupId> <artifactId>spring-oxm</artifactId> 
-			<version>${spring.version}</version> </dependency> -->
-		<!-- XStream Library -->
-		<!-- <dependency> <groupId>com.thoughtworks.xstream</groupId> <artifactId>xstream</artifactId> 
-			<version>1.4.2</version> </dependency> -->
 		<!-- JDom -->
 		<dependency>
 			<groupId>jdom</groupId>
@@ -165,14 +166,6 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
-		</dependency>
-	
-		<!-- Log4j Dependency -->
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.16</version>
-			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
 </project>

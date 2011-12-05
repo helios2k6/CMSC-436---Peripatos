@@ -1,4 +1,4 @@
-<%@include file="../../../header.jsp"%>
+<%@include file="/WEB-INF/views/header.jsp"%>
 </head>
 <body>
 	<div id="titleArea">Answer for Assignment: ${assignment.name}</div>

@@ -21,7 +21,7 @@
 
 	<servlet-mapping>
 		<servlet-name>peripatos</servlet-name>
-		<url-pattern>/</url-pattern>
+		<url-pattern>/peripatos/*</url-pattern>
 	</servlet-mapping>
 
 	<filter>

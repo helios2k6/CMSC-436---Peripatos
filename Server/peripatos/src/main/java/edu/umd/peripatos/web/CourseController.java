@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import edu.umd.peripatos.Answer;
 import edu.umd.peripatos.Assignment;
@@ -44,6 +46,8 @@ public class CourseController {
 
 	@Autowired
 	private QuestionDao questionDao;
+	
+	private static Logger logger = Logger.getLogger(CourseController.class);
 	
 	/*	
 	@RequestMapping("/courses")
@@ -114,15 +118,27 @@ public class CourseController {
 	}
 
 	@RequestMapping(value = "/courses/{course_id}/assignments/{assignment_id}", method = RequestMethod.POST)
-	public String editAssignment(@ModelAttribute("assignment") @Valid Assignment assignment, BindingResult result){
+	public String editAssignment(
+			@ModelAttribute("assignment") @Valid Assignment assignment, 
+			BindingResult result,
+			@RequestParam("selectedQuestions") String selectedQuestionsList){
 
+		logger.info("Editing assignment " + assignment.getId());
+		
 		if(result.hasErrors()){
+			logger.error("Form has errors");
 			return "courses/assignments/assignmentDetails";
 		}
-
+		
+		logger.info("Gathering selected questions list");
+		List<Question> questions = getListOfQuestionsFromPostList(selectedQuestionsList);
+		
+		assignment.setQuestions(questions);
+		
+		logger.info("Saving assignment");
 		assignmentDao.store(assignment);
 
-		return "courses/courseDetails";
+		return "redirect:/courses/{course_id}";
 	}
 
 	@RequestMapping(value = "/courses/{course_id}/assignments/{assignment_id}", method = RequestMethod.DELETE)
@@ -182,18 +198,34 @@ public class CourseController {
 	}
 
 	@RequestMapping(value = "/courses/{course_id}/assignments/createAssignment", method = RequestMethod.POST)
-	public String saveAssignmentForm(@ModelAttribute("assignment") @Valid Assignment assignment, BindingResult result, HttpServletRequest request){
+	public String saveAssignmentForm(@ModelAttribute("assignment") @Valid Assignment assignment, 
+			BindingResult result, 
+			HttpServletRequest request,
+			@RequestParam("selectedQuestions") String selectedQuestionsList){
+		
+		logger.info("Creating new assignment");
+		
 		if(result.hasErrors()){
+			logger.error("Form has errors");
 			return "courses/assignments/assignmentDetails";
 		}
-
+		
+		logger.info("Getting user");
+		
 		User user = userDao.findUserByName(request.getRemoteUser());
-
+		
+		logger.info("Setting user to " + user.getUsername());
 		assignment.setUser(user);
-
+		
+		logger.info("Gathering selected questions list");
+		List<Question> questions = getListOfQuestionsFromPostList(selectedQuestionsList);
+		
+		assignment.setQuestions(questions);
+		
+		logger.info("Saving assignment");
 		assignmentDao.store(assignment);
 
-		return "courses/courseDetails";
+		return "redirect:/courses/{course_id}";
 	}
 
 	@ModelAttribute("user")
@@ -210,5 +242,24 @@ public class CourseController {
 	public Assignment getAssignment(){
 		return new Assignment();
 	}
-
+	
+	private List<Question> getListOfQuestionsFromPostList(String listOfQuestions){
+		List<Question> questions = new ArrayList<Question>();
+		String[] splitQuestions = listOfQuestions.split(",;");
+		
+		for(int i = 0; i < splitQuestions.length; i++){
+			String currentString = splitQuestions[i];
+			int indexOfFirstBracket = currentString.indexOf('[');
+			int indexOfSecondBracket = currentString.indexOf(']');
+			
+			long idOfQuestion = Long.parseLong(currentString.substring(indexOfFirstBracket+1, indexOfSecondBracket));
+			
+			Question question = questionDao.getQuestionById(idOfQuestion);
+			
+			questions.add(question);
+		}
+		
+		return questions;
+	}
+	
 }

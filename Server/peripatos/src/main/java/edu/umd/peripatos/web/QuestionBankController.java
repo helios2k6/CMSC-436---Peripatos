@@ -22,7 +22,6 @@ import edu.umd.peripatos.dao.QuestionDao;
 import edu.umd.peripatos.dao.UserDao;
 
 @Controller
-@RequestMapping("/questions")
 public class QuestionBankController {
 
 	@Autowired
@@ -36,7 +35,7 @@ public class QuestionBankController {
 	
 	private static Logger logger = Logger.getLogger(QuestionBankController.class);
 	
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(value = "/questions", method = RequestMethod.GET)
 	public String getListOfQuestions(Model model, HttpServletRequest request){
 		User user = userDao.findUserByName(request.getRemoteUser());
 
@@ -47,7 +46,7 @@ public class QuestionBankController {
 		return "questions/listQuestions";	
 	}
 
-	@RequestMapping(value = "/{question_id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/questions/{question_id}", method = RequestMethod.GET)
 	public String getQuestionDetails(@PathVariable("question_id") Long id, Model model){
 		logger.info("Gathering Question Details");
 		Question question = questionDao.getQuestionById(id);
@@ -57,7 +56,7 @@ public class QuestionBankController {
 		return "questions/questionDetails";
 	}
 
-	@RequestMapping(value = "/{question_id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/questions/{question_id}", method = RequestMethod.POST)
 	public String postQuestionEdits(@PathVariable("question_id")Long id, 
 			@ModelAttribute("question") @Valid Question question, 
 			BindingResult result){
@@ -75,15 +74,15 @@ public class QuestionBankController {
 		questionDao.store(question);
 		
 		logger.info("Redirecting");
-		return "redirect:/questions";
+		return "redirect:/peripatos/questions";
 	}
 	
-	@RequestMapping(value = "/createQuestion", method = RequestMethod.GET)
+	@RequestMapping(value = "/questions/createQuestion", method = RequestMethod.GET)
 	public String createNewQuestionForm(Model model, HttpServletRequest request){
 		return "questions/questionDetails";
 	}
 	
-	@RequestMapping(value = "/createQuestion", method = RequestMethod.POST)
+	@RequestMapping(value = "/questions/createQuestion", method = RequestMethod.POST)
 	public String postNewQuestionForm(@ModelAttribute("question") @Valid Question question,
 			BindingResult result, HttpServletRequest request){
 		
@@ -108,15 +107,15 @@ public class QuestionBankController {
 		questionDao.store(question);
 		
 		logger.info("Redirecting");
-		return "redirect:/questions";
+		return "redirect:/peripatos/questions";
 	}
 	
-	@RequestMapping(value = "/{question_id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/questions/{question_id}", method = RequestMethod.DELETE)
 	public String deleteQuestion(@PathVariable("question_id")Long id){
 		logger.info("Deleting Question: " + id);
 		questionDao.delete(questionDao.getQuestionById(id));
 		
-		return "redirect:/questions";
+		return "redirect:/peripatos/questions";
 	}
 	
 	
