@@ -1,0 +1,44 @@
+/*Temp Styles*/
+.connectedSortable{
+	list-style-type:none;
+/*	float:left;*/
+	padding:5px;
+	width: 200px; /*This is what gives us the ability to drop on empty*/
+}
+/*Temp Styles*/
+.connectedSortable li{
+	width:320px;
+	padding: 5px;
+	margin:5px;
+	font-size:1.2em;
+	background:#eee;
+	border: 2px solid black;
+	text-align:center;
+}
+
+.tableClass{
+	border: 2px solid black;
+	margin: auto;
+}
+
+.assignmentQuestionEntryClass{
+	width: 400px;
+	margin:auto;
+	border:2px solid black;
+}
+
+.mainBodyAreaClass{
+	margin:auto;
+	border:2px solid black;
+}
+
+.formAreaClass{
+	margin:auto;
+	border:2px solid black;
+}
+
+#formFooter{
+	margin: auto;
+	border: 2px solid black;
+	text-align:center;
+}

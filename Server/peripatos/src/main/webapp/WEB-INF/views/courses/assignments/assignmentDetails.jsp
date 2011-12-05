@@ -4,39 +4,56 @@
 	var questionDictionary = {}
 
 	$(function() {
+		function processDictionaryHydration(index, element) {
+			var mainString = $(element).text();
+			var firstSegment = mainString.indexOf('[');
+			var secondSegment = mainString.indexOf(']');
+
+			//Get Data
+			var questionTitle = mainString.substring(0, firstSegment);
+			var questionId = mainString.substring(firstSegment + 1,
+					secondSegment);
+
+			//Hydrate dictionary
+			questionDictionary[questionTitle] = questionId;
+		}
+
 		//Set Date Picker for the due date thing
-		$("#dueDate").datepicker();
+		$("#dueDate").datepicker({dateFormat:'yy-mm-dd'});
 
 		//Set droppable
 		$("#assignedQuestionsList, #availableQuestionsList").sortable({
-			connectWith : ".connectedSortable"
+			connectWith : ".connectedSortable",
+			placeholder: "ui-state-highlight" //This is temporary
 		}).disableSelection();
-		
-		//Hydrate the questionDictionary
-		$("#assignedQuestionsList > li").each(function(index, element){
-			
-		});
-		
-	});
 
-	function processSelectedQuestions() {
-		var postString = "";
-		$("#assignedQuestionsList > li").each(function(index, element) {
-			//Process stuff here
-			if (index == 0) {
-				postString = $(element).text();
-			} else {
-				postString = postString + ",;" + $(element).text();
+		//Hydrate the questionDictionary
+		$("#hiddenAvailableQuestionList > li").each(function(index, element) {
+			processDictionaryHydration(index, element);
+		});
+		$("#hiddenAssignedQuestionList > li").each(function(index, element) {
+			processDictionaryHydration(index, element);
+		});
+		$("#hiddenValueArea").remove();
+
+	});
+	
+	function preSubmitFunction(){
+		var assignedQuestionIds = "";
+		
+		$("#assignedQuestionsList > li").each(function(index, element){
+			var text = $(element).text();
+			var id = questionDictionary[text];
+			
+			if(index == 0){
+				assignedQuestionIds = id;
+			}else{
+				assignedQuestionIds = assignedQuesitonIds + ",;" + id;
 			}
 		});
-
-		return postString;
-	}
-
-	function preSubmitFunction() {
-		var postString = processSelectedQuestions();
-
-		$('input[name="selectedQuestions"]').val(postString);
+		
+		$('input[name="selectedQuestions"]').val(assignedQuestionIds);
+		
 	}
 </script>
 </head>
@@ -51,11 +68,11 @@
 					</tr>
 					<tr>
 						<td>Date:</td>
-						<td><form:input path="dueDate" readonly="readonly"
+						<td><form:input path="dueDate" readonly="true"
 								value="${assignment.dueDate}" /></td>
 					</tr>
 				</table>
-				<table>
+				<table class="tableClass">
 					<tr>
 						<th>Assigned Questions</th>
 						<th>Available Questions</th>
@@ -66,7 +83,7 @@
 								<ul id="assignedQuestionsList" class="connectedSortable">
 									<c:forEach items="${assignment.questions}"
 										var="assignedQuestion">
-										<li>${assignedQuestion.title}[${assignedQuestion.id}]</li>
+										<li>${assignedQuestion.title}</li>
 									</c:forEach>
 								</ul>
 							</div>
@@ -76,7 +93,7 @@
 								<ul id="availableQuestionsList" class="connectedSortable">
 									<c:forEach items="${availableQuestions}"
 										var="availableQuestion">
-										<li>${availableQuestion.title}[${availableQuestion.id}]</li>
+										<li>${availableQuestion.title}</li>
 									</c:forEach>
 								</ul>
 							</div>
@@ -90,10 +107,24 @@
 				</div>
 				<input type="hidden" name="selectedQuestions" value="" />
 			</form:form>
-			<form:form method="DELETE">
-				<input type="submit" value="Delete" />
-			</form:form>
+			<div class="deleteFormClass">
+				<form:form method="DELETE">
+					<input type="submit" value="Delete" />
+				</form:form>
+			</div>
 		</div>
+	</div>
+	<div id="hiddenValueArea">
+		<c:forEach items="${availableQuestions}" var="availableQuestion">
+			<ul id="hiddenAvailableQuestionList">
+				<li>${availableQuestion.title}[${availableQuestion.id}]</li>
+			</ul>
+		</c:forEach>
+		<c:forEach items="${assignment.questions}" var="assignedQuestion">
+			<ul id="hiddenAssignedQuestionList">
+				<li>${assignedQuestion.title}[${assignedQuestion.id}]</li>
+			</ul>
+		</c:forEach>
 	</div>
 </body>
 </html>

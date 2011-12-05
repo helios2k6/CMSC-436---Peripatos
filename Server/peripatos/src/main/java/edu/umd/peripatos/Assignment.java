@@ -73,6 +73,7 @@ public class Assignment {
 		this.questions = questions;
 	}
 	
+	@NotNull
 	@Column(name = "DATE")
 	public DateTime getDueDate() {
 		return dueDate;
