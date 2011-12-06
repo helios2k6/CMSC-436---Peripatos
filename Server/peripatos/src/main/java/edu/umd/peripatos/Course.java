@@ -51,7 +51,7 @@ public class Course {
 	}
 	
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "COURSE_ASSIGNMENTS", joinColumns = {@JoinColumn(name = "COURSE_ID")}, inverseJoinColumns = {@JoinColumn(name = "ASSIGNMENT_ID")})
+	@JoinTable(name = "COURSE_ASSIGNMENT", joinColumns = {@JoinColumn(name = "COURSE_ID")}, inverseJoinColumns = {@JoinColumn(name = "ASSIGNMENT_ID")})
 	public List<Assignment> getAssignments() {
 		return assignments;
 	}

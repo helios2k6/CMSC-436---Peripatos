@@ -1,5 +1,6 @@
 package edu.umd.peripatos;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -13,8 +14,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import org.joda.time.DateTime;
-
 @Entity
 @Table(name="ASSIGNMENT")
 public class Assignment {
@@ -22,7 +21,7 @@ public class Assignment {
 	
 	private Long id;
 	private String name;
-	private DateTime dueDate;
+	private Date dueDate;
 	
 	//Join values
 	private User user;
@@ -33,6 +32,7 @@ public class Assignment {
 	}
 	
 	@Id
+	@Column(name = "ASSIGNMENT_ID")
 	public Long getId() {
 		return id;
 	}
@@ -74,12 +74,12 @@ public class Assignment {
 	}
 	
 	@NotNull
-	@Column(name = "DATE")
-	public DateTime getDueDate() {
+	@Column(name = "DUE_DATE")
+	public Date getDueDate() {
 		return dueDate;
 	}
 	
-	public void setDueDate(DateTime dueDate) {
+	public void setDueDate(Date dueDate) {
 		this.dueDate = dueDate;
 	}
 	

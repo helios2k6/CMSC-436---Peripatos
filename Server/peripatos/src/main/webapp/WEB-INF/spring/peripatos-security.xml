@@ -5,17 +5,17 @@
 			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<http>
 		<http-basic />
-		<intercept-url pattern="/peripatos/admin*" access="ROLE_PROFESSOR" />
-		<intercept-url pattern="/peripatos/courses*" access="ROLE_PROFESSOR" />
-		<intercept-url pattern="/peripatos/assignments*" access="ROLE_PROFESSOR" />
-		<intercept-url pattern="/peripatos/questions*" access="ROLE_PROFESSOR" />
-		<form-login login-page="/login.jsp" default-target-url="/admin"/>
+		<intercept-url pattern="/peripatos/admin" access="ROLE_PROFESSOR" />
+		<intercept-url pattern="/peripatos/assignments/**" access="ROLE_PROFESSOR" />
+		<intercept-url pattern="/peripatos/courses/**" access="ROLE_PROFESSOR" />
+		<intercept-url pattern="/peripatos/questions/**" access="ROLE_PROFESSOR" />
+		<form-login login-page="/login.jsp" default-target-url="/peripatos/admin" />
 		<logout />
 		<remember-me />
 	</http>
 	<authentication-manager>
 		<authentication-provider>
-			<jdbc-user-service data-source-ref="dataSource"/>
+			<jdbc-user-service data-source-ref="dataSource" />
 		</authentication-provider>
 	</authentication-manager>
 </beans:beans>

@@ -8,7 +8,7 @@
 		<div id="listArea">
 		<ul>
 		<c:forEach items="${students}" var="student">
-			<li><a href="<c:url value='./${student.username}'/>">${student.username}</a></li>
+			<li><a href="<c:url value='./answers/${student.username}'/>">${student.username}</a></li>
 		</c:forEach>
 		</ul>
 		</div>

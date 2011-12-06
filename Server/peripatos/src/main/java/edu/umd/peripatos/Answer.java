@@ -1,5 +1,6 @@
 package edu.umd.peripatos;
 
+import java.util.Date;
 import java.util.Random;
 
 import javax.persistence.Column;
@@ -12,8 +13,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import org.joda.time.DateTime;
-
 @Entity
 @Table(name = "ANSWER")
 public class Answer {
@@ -21,7 +20,7 @@ public class Answer {
 	private static final Random random = new Random();
 
 	private Long id;
-	private DateTime submissionDate;
+	private Date submissionDate;
 	private String body;
 	//Joined Values
 	private User user;
@@ -58,11 +57,11 @@ public class Answer {
 
 	@NotNull
 	@Column(name = "DATE")
-	public DateTime getSubmissionDate() {
+	public Date getSubmissionDate() {
 		return submissionDate;
 	}
 
-	public void setSubmissionDate(DateTime submissionDate) {
+	public void setSubmissionDate(Date submissionDate) {
 		this.submissionDate = submissionDate;
 	}
 

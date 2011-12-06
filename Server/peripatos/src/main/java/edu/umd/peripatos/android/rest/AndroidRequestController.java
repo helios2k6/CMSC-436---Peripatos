@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.jdom.Document;
@@ -12,7 +13,6 @@ import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.ProviderManager;
@@ -247,7 +247,7 @@ public class AndroidRequestController {
 		answer.setAssignment(assignment);
 		answer.setQuestion(question);
 		answer.setBody(answerBody);
-		answer.setSubmissionDate(new DateTime());
+		answer.setSubmissionDate(new Date());
 		answer.setUser(user);
 
 		return answer;

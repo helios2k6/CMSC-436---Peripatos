@@ -26,7 +26,7 @@ public class HibernateAssignmentDao implements AssignmentDao{
 	@Override
 	public void store(Assignment assignment) {
 		Session session = sessionFactory.getCurrentSession();
-		session.save(assignment);
+		session.saveOrUpdate(assignment);
 	}
 
 	@Override
@@ -50,7 +50,7 @@ public class HibernateAssignmentDao implements AssignmentDao{
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery(
 				"FROM Assignment as assignment " +
-						"WHERE assignment.name = " + name);
+						"WHERE assignment.name = '" + name+"'");
 		return query.list();
 	}
 
@@ -60,7 +60,7 @@ public class HibernateAssignmentDao implements AssignmentDao{
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery(
 				"FROM Assignment as assignment " + 
-						"WHERE assignment.user.username = " + user.getUsername());
+						"WHERE assignment.user.username = '" + user.getUsername()+"'");
 		return query.list();
 	}
 

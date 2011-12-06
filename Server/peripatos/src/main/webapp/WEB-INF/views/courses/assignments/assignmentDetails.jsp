@@ -48,7 +48,7 @@
 			if(index == 0){
 				assignedQuestionIds = id;
 			}else{
-				assignedQuestionIds = assignedQuesitonIds + ",;" + id;
+				assignedQuestionIds = assignedQuestionIds + ",;" + id;
 			}
 		});
 		
