@@ -88,7 +88,7 @@
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost:3306/peripatos" />
 		<property name="username" value="root" />
-		<property name="password" value="t61462896" />
+		<property name="password" value="dammit_samet" />
 		<property name="initialSize" value="2" />
 		<property name="maxActive" value="5" />
 	</bean>

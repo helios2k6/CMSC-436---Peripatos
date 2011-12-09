@@ -155,6 +155,13 @@ a:hover{
 	padding: 15px;
 }
 
+.mediumMainBodyAreaClass{
+	margin:auto;
+	border:2px solid #E1E3F2;
+	width: 65%;
+	padding: 15px;	
+}
+
 .questionResponseClass{
 	margin: 15px;
 	padding: 5px;
@@ -178,6 +185,6 @@ a:hover{
 #loginMainBody{
 	margin:auto;
 	border:2px solid #E1E3F2;
-	width: 15%;
+	width: 25%;
 	padding: 15px;
 }

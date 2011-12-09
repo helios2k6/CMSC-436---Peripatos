@@ -3,7 +3,7 @@
 <body>
 	<div class="pageTitleClass">Question Bank</div>
 	<%@include file="/WEB-INF/views/banner.jsp"%>
-	<div class="smallerMainBodyareaClass">
+	<div class="smallerMainBodyAreaClass">
 		<div class="listTitleClass">Questions</div>
 		<div id="createQuestionLink">
 			<a href="<c:url value='./questions/createQuestion' />">Create Question</a>

@@ -3,7 +3,7 @@
 	<div class="pageTitleClass">Course Details for ${course.name}</div>
 	<%@include file="/WEB-INF/views/banner.jsp"%>
 	
-	<div class="smallerMainBodyAreaClass">
+	<div class="mediumMainBodyAreaClass">
 		<div id="createAssignmentLink">
 			<a href="<c:url value='./${course.id}/assignments/createAssignment'/>">Create Assignment</a>
 		</div>
