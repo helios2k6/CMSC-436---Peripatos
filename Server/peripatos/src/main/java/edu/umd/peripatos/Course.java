@@ -3,7 +3,6 @@ package edu.umd.peripatos;
 import java.util.List;
 import java.util.Random;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -14,7 +13,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "COURSE")
+@Table(name = "course")
 public class Course {
 	
 	private static final Random random = new Random();
@@ -31,7 +30,7 @@ public class Course {
 	}
 	
 	@Id
-	@Column(name = "COURSE_ID")
+	@Column(name = "courseId")
 	public Long getId() {
 		return id;
 	}
@@ -41,7 +40,7 @@ public class Course {
 	}
 	
 	@NotNull
-	@Column(name = "NAME")
+	@Column(name = "name")
 	public String getName() {
 		return name;
 	}
@@ -50,8 +49,9 @@ public class Course {
 		this.name = name;
 	}
 	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "COURSE_ASSIGNMENT", joinColumns = {@JoinColumn(name = "COURSE_ID")}, inverseJoinColumns = {@JoinColumn(name = "ASSIGNMENT_ID")})
+	@OneToMany
+	@JoinTable(name = "course_assignment", joinColumns = {@JoinColumn(name = "courseId")}, 
+	inverseJoinColumns = {@JoinColumn(name = "assignmentId")})
 	public List<Assignment> getAssignments() {
 		return assignments;
 	}
@@ -61,7 +61,8 @@ public class Course {
 	}
 	
 	@OneToMany
-	@JoinTable(name = "COURSE_USER", joinColumns = {@JoinColumn(name = "COURSE_ID")}, inverseJoinColumns = {@JoinColumn(name = "USERNAME")})
+	@JoinTable(name = "course_user", joinColumns = {@JoinColumn(name = "courseId")}, 
+	inverseJoinColumns = {@JoinColumn(name = "username")})
 	public List<User> getUsers() {
 		return users;
 	}

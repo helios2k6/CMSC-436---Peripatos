@@ -1,10 +1,9 @@
 package edu.umd.peripatos.hibernate;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,9 +17,9 @@ import edu.umd.peripatos.dao.AnswerDao;
 
 @Transactional
 public class HibernateAnswerDao implements AnswerDao{
-	
+
 	private static Logger logger = Logger.getLogger(HibernateAnswerDao.class);
-	
+
 	private SessionFactory sessionFactory;
 
 	public void setSessionFactory(SessionFactory sessionFactory){
@@ -49,20 +48,28 @@ public class HibernateAnswerDao implements AnswerDao{
 	@Override
 	public Answer getAnswerByAssignmentAndUserAndQuestion(Assignment assignment, User user, Question question) {
 		Session session = sessionFactory.getCurrentSession();
-		Criteria crit = session.createCriteria(Answer.class);
 		
-		@SuppressWarnings("unchecked")
-		List<Answer> answers = crit.list();
+		Query query = session.createQuery(
+				"From Answer as answer " +
+				"WHERE answer.assignment.id = " + assignment.getId() + " " + 
+				"AND answer.user.username = '" + user.getUsername() + "' " +
+				"AND answer.question.id = " + question.getId()				
+				);
 		
-		for(Answer a : answers){
-			if(a.getAssignment().getId().equals(assignment.getId()) &&
-					a.getUser().getUsername().equals(user.getUsername()) &&
-					a.getQuestion().getId().equals(question.getId())){
-				return a;
-			}
-		}
-		
-		return null;
+//		Criteria crit = session.createCriteria(Answer.class);
+//		
+//		@SuppressWarnings("unchecked")
+//		List<Answer> answers = crit.list();
+//
+//		for(Answer a : answers){
+//			if(a.getAssignment().getId().equals(assignment.getId()) &&
+//					a.getUser().getUsername().equals(user.getUsername()) &&
+//					a.getQuestion().getId().equals(question.getId())){
+//				return a;
+//			}
+//		}
+
+		return (Answer)query.list().get(0);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -70,22 +77,29 @@ public class HibernateAnswerDao implements AnswerDao{
 	public List<Answer> getAnswerByAssignmentAndUserAndCourse(Assignment assignment, User user, Course course) {
 		logger.info("Attempting to get answers for user using [Assignment] [User] [Course]");
 		Session session = sessionFactory.getCurrentSession();
+		
+		Query query = session.createQuery(
+				"From Answer as answer " +
+				"WHERE answer.assignment.id = " + assignment.getId() + " " + 
+				"AND answer.user.username = '" + user.getUsername() + "' " +
+				"AND answer.course.id = " + course.getId()				
+				);
+		
+//		Criteria crit = session.createCriteria(Answer.class);
+//
+//		List<Answer> answers = crit.list();
+//
+//		List<Answer> results = new ArrayList<Answer>();
+//
+//		for(Answer a : answers){
+//			if(a.getAssignment().getId().equals(assignment.getId()) &&
+//					a.getUser().getUsername().equals(user.getUsername()) &&
+//					a.getCourse().getId().equals(course.getId())){
+//				results.add(a);
+//			}
+//		}
 
-		Criteria crit = session.createCriteria(Answer.class);
-		
-		List<Answer> answers = crit.list();
-		
-		List<Answer> results = new ArrayList<Answer>();
-		
-		for(Answer a : answers){
-			if(a.getAssignment().getId().equals(assignment.getId()) &&
-					a.getUser().getUsername().equals(user.getUsername()) &&
-					a.getCourse().getId().equals(course.getId())){
-				results.add(a);
-			}
-		}
-		
-		return results;
+		return query.list();
 	}
 
 }

@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "GeoLocation")
+@Table(name = "geolocation")
 public class GeoLocation {
 	
 	private static final Random random = new Random();
@@ -23,7 +23,7 @@ public class GeoLocation {
 	}
 	
 	@Id
-	@Column(name = "GEOLOCATION_ID")
+	@Column(name = "geolocationId")
 	public Long getId() {
 		return id;
 	}
@@ -33,7 +33,7 @@ public class GeoLocation {
 	}
 	
 	@NotNull
-	@Column(name="LATITUDE")
+	@Column(name="latitude")
 	public Double getLatitude() {
 		return latitude;
 	}
@@ -43,7 +43,7 @@ public class GeoLocation {
 	}
 	
 	@NotNull
-	@Column(name = "LONGITUDE")
+	@Column(name = "longitude")
 	public Double getLongitude() {
 		return longitude;
 	}

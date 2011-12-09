@@ -16,11 +16,12 @@ import edu.umd.peripatos.SubmissionReceiptStatusCode;
 public class XMLResponseFactory {
 	
 	public static final String PERIPATOS_NAMESPACE = "http://www.cs.umd.edu/class/fall2011/cmsc436/peripatos";
+	public static final String PERIPATOS_NAMESPACE_NAME = "peripatos";
+	
 	
 	public static Document generateResponseForRequest(List<Course> courses){
-		Namespace namespace = Namespace.getNamespace(PERIPATOS_NAMESPACE);
-		Element rootElement = new Element("courses_and_assignments");
-		rootElement.addNamespaceDeclaration(namespace);
+		Namespace defaultNamespace = Namespace.getNamespace(PERIPATOS_NAMESPACE);
+		Element rootElement = new Element("courses_and_assignments", defaultNamespace);
 		
 		//Add everything to root
 		addCourses(rootElement, courses);
@@ -30,51 +31,57 @@ public class XMLResponseFactory {
 	}
 	
 	private static void addCourses(Element parent, List<Course> courses){
+		Namespace defaultNamespace = Namespace.getNamespace(PERIPATOS_NAMESPACE);
 		for(Course c : courses){
 			//parent
-			Element course = new Element("course");
+			Element course = new Element("course", defaultNamespace);
 			
 			//children
 			//Course id
-			Element courseId = new Element("course_id");
+			Element courseId = new Element("course_id", defaultNamespace);
 			courseId.setText(c.getId().toString());
 			
 			//Course name
-			Element courseName = new Element("course_name");
+			Element courseName = new Element("course_name", defaultNamespace);
 			courseName.setText(c.getName());
 			
 			//Assignments
-			Element assignments = new Element("assignments");
+			Element assignments = new Element("assignments", defaultNamespace);
 			
 			//Attach stuff
 			course.addContent(courseId);
 			course.addContent(courseName);
-			course.addContent(assignments);
 			
 			//Call addAssignments to put all assignments of this course in xml file
 			addAssignments(assignments, c.getAssignments());
 			
-			//Attach everything to the doc
-			parent.addContent(assignments);
+			//Add assignments
+			course.addContent(assignments);
+			
+			//Add to parent
+			parent.addContent(course);
 		}
+		
+		
 	}
 	
 	private static void addAssignments(Element parent, List<Assignment> assignments){
+		Namespace defaultNamespace = Namespace.getNamespace(PERIPATOS_NAMESPACE);
 		for(Assignment a : assignments){
 			//Parent
-			Element assignment = new Element("assignment");
+			Element assignment = new Element("assignment", defaultNamespace);
 			
 			//Children
 			//Assignment id
-			Element assignmentId = new Element("assignment_id");
+			Element assignmentId = new Element("assignment_id", defaultNamespace);
 			assignmentId.setText(a.getId().toString());
 			
 			//Assignment name
-			Element assignmentName = new Element("assignment_name");
+			Element assignmentName = new Element("assignment_name", defaultNamespace);
 			assignmentName.setText(a.getName());
 			
 			//Questions
-			Element questions = new Element("questions");
+			Element questions = new Element("questions", defaultNamespace);
 			
 			//Attach stuff
 			assignment.addContent(assignmentId);
@@ -89,21 +96,22 @@ public class XMLResponseFactory {
 	}
 	
 	private static void addQuestions(Element parent, List<Question> questions){
+		Namespace defaultNamespace = Namespace.getNamespace(PERIPATOS_NAMESPACE);
 		for(Question q : questions){
 			//Parent
-			Element question = new Element("question");
+			Element question = new Element("question", defaultNamespace);
 			
 			//Children
 			//Question id
-			Element questionId = new Element("question_id");
+			Element questionId = new Element("question_id", defaultNamespace);
 			questionId.setText(q.getId().toString());
 			
 			//Question title
-			Element questionTitle = new Element("question_title");
+			Element questionTitle = new Element("question_title", defaultNamespace);
 			questionTitle.setText(q.getTitle());
 			
 			//Question body
-			Element questionBody = new Element("question_body");
+			Element questionBody = new Element("question_body", defaultNamespace);
 			questionBody.setText(q.getBody());
 			
 			//Attach stuff
@@ -119,9 +127,10 @@ public class XMLResponseFactory {
 	}
 	
 	private static void addGeolocation(Element parent, GeoLocation location){
-		Element geoLocation = new Element("geolocation");
-		Element latitude = new Element("latitude");
-		Element longitude = new Element("longitude");
+		Namespace defaultNamespace = Namespace.getNamespace(PERIPATOS_NAMESPACE);
+		Element geoLocation = new Element("geolocation", defaultNamespace);
+		Element latitude = new Element("latitude", defaultNamespace);
+		Element longitude = new Element("longitude", defaultNamespace);
 		
 		latitude.setText(location.getLatitude().toString());
 		longitude.setText(location.getLongitude().toString());
@@ -133,10 +142,10 @@ public class XMLResponseFactory {
 	}
 	
 	public static Document generateSubmissionReceipt(SubmissionReceiptStatusCode statusCode){
-		Element rootElement = new Element("submission_receipt");
-		rootElement.addNamespaceDeclaration(Namespace.getNamespace(PERIPATOS_NAMESPACE));
+		Namespace defaultNamespace = Namespace.getNamespace(PERIPATOS_NAMESPACE);
+		Element rootElement = new Element("submission_receipt", defaultNamespace);
 		
-		Element status = new Element("status");
+		Element status = new Element("status", defaultNamespace);
 		status.setText(statusCode.toString());
 		
 		Document doc = new Document(rootElement);
@@ -144,11 +153,14 @@ public class XMLResponseFactory {
 	}
 	
 	public static Document generateErrorResponse(ErrorResponseCode code){
-		Element rootElement = new Element("error_response");
-		rootElement.addNamespaceDeclaration(Namespace.getNamespace(PERIPATOS_NAMESPACE));
+		Namespace defaultNamespace = Namespace.getNamespace(PERIPATOS_NAMESPACE);
 		
-		Element status = new Element("error_code");
+		Element rootElement = new Element("error_response", defaultNamespace);
+		
+		Element status = new Element("error_code", defaultNamespace);
 		status.setText(code.toString());
+		
+		rootElement.addContent(status);
 		
 		Document doc = new Document(rootElement);
 		return doc;

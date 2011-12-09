@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "USERS")
+@Table(name = "users")
 public class User {
 	
 	private String username;
@@ -19,7 +19,7 @@ public class User {
 	
 	@Id
 	@NotNull
-	@Column(name = "USERNAME")
+	@Column(name = "username")
 	public String getUsername() {
 		return username;
 	}
@@ -29,7 +29,7 @@ public class User {
 	}
 	
 	@NotNull
-	@Column(name = "PASSWORD")
+	@Column(name = "password")
 	public String getPassword() {
 		return password;
 	}
@@ -38,7 +38,7 @@ public class User {
 		this.password = password;
 	}
 	
-	@Column(name = "AUTHORITY")
+	@Column(name = "authority")
 	@Enumerated(EnumType.STRING)
 	public Authority getAuthority() {
 		return authority;
@@ -49,7 +49,7 @@ public class User {
 	}
 	
 	@NotNull
-	@Column(name = "ENABLED")
+	@Column(name = "enabled")
 	public short getEnabled() {
 		return enabled;
 	}

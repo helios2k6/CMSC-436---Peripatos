@@ -1,6 +1,6 @@
-CREATE DATABASE PERIPATOS;
+CREATE DATABASE peripatos;
 
-CREATE TABLE PERIPATOS.USERS(
+CREATE TABLE peripatos.users(
 	username varchar(45) NOT NULL,
 	password varchar(20) NOT NULL,
 	enabled smallint NOT NULL,
@@ -8,102 +8,112 @@ CREATE TABLE PERIPATOS.USERS(
 	PRIMARY KEY(username)
 );
 
-CREATE TABLE PERIPATOS.AUTHORITIES(
+CREATE TABLE peripatos.authorities(
 	username varchar(45) NOT NULL,
 	authority varchar(20) NOT NULL,
-	FOREIGN KEY (username) REFERENCES PERIPATOS.USERS(username)
+	FOREIGN KEY (username) REFERENCES peripatos.users(username)
 );
 
-CREATE TABLE PERIPATOS.COURSE(
-	course_id bigint NOT NULL AUTO_INCREMENT,
+CREATE TABLE peripatos.course(
+	courseId bigint NOT NULL AUTO_INCREMENT,
 	name varchar(512) NOT NULL,
-	PRIMARY KEY(course_id)
+	PRIMARY KEY(courseId)
 );
 
-CREATE TABLE PERIPATOS.GEOLOCATION(
-	geolocation_id bigint NOT NULL AUTO_INCREMENT,
+CREATE TABLE peripatos.geolocation(
+	geolocationId bigint NOT NULL AUTO_INCREMENT,
 	latitude double NOT NULL,
 	longitude double NOT NULL,
-	PRIMARY KEY (geolocation_id)
+	PRIMARY KEY (geolocationId)
 );
 
-CREATE TABLE PERIPATOS.QUESTION(
-	question_id bigint NOT NULL AUTO_INCREMENT,
+CREATE TABLE peripatos.question(
+	questionId bigint NOT NULL AUTO_INCREMENT,
 	title varchar(512) NOT NULL,
 	body varchar(4096),
-	PRIMARY KEY (question_id)
+	PRIMARY KEY (questionId)
 );
 
-CREATE TABLE PERIPATOS.ANSWER(
-	answer_id bigint NOT NULL AUTO_INCREMENT,
-	submission_date date NOT NULL,
+CREATE TABLE peripatos.answer(
+	answerId bigint NOT NULL AUTO_INCREMENT,
+	submissionDate date NOT NULL,
 	body varchar(4096) NOT NULL,
-	PRIMARY KEY (answer_id)
+	PRIMARY KEY (answerId)
 );
 
-CREATE TABLE PERIPATOS.ASSIGNMENT(
-	assignment_id bigint NOT NULL AUTO_INCREMENT,
+CREATE TABLE peripatos.assignment(
+	assignmentId bigint NOT NULL AUTO_INCREMENT,
 	name varchar(512) NOT NULL,
-	due_date date NOT NULL,
-	PRIMARY KEY (assignment_id)
+	dueDate date NOT NULL,
+	PRIMARY KEY (assignmentId)
 );
 
-CREATE TABLE PERIPATOS.USER_ASSIGNMENT(
+CREATE TABLE peripatos.user_assignment(
 	username varchar(45) NOT NULL,
-	assignment_id bigint NOT NULL,
-	FOREIGN KEY (username) REFERENCES PERIPATOS.USERS(username),
-	FOREIGN KEY (assignment_id) REFERENCES PERIPATOS.ASSIGNMENT(assignment_id)
+	assignmentId bigint NOT NULL,
+	FOREIGN KEY (username) REFERENCES peripatos.users(username),
+	FOREIGN KEY (assignmentId) REFERENCES peripatos.assignment(assignmentId)
 );
 
-CREATE TABLE PERIPATOS.COURSE_USER(
-	course_id bigint NOT NULL,
+CREATE TABLE peripatos.course_user(
+	courseId bigint NOT NULL,
 	username varchar(45) NOT NULL,
-	FOREIGN KEY (course_id) REFERENCES PERIPATOS.COURSE(course_id),
-	FOREIGN KEY (username) REFERENCES PERIPATOS.USERS(username)
+	FOREIGN KEY (courseId) REFERENCES peripatos.course(courseId),
+	FOREIGN KEY (username) REFERENCES peripatos.users(username)
 );
 
-CREATE TABLE PERIPATOS.COURSE_ASSIGNMENT(
-	course_id bigint NOT NULL,
-	assignment_id bigint NOT NULL,
-	FOREIGN KEY (course_id) REFERENCES PERIPATOS.COURSE(course_id),
-	FOREIGN KEY (assignment_id) REFERENCES PERIPATOS.ASSIGNMENT(assignment_id)
+CREATE TABLE peripatos.course_assignment(
+	courseId bigint NOT NULL,
+	assignmentId bigint NOT NULL,
+	FOREIGN KEY (courseId) REFERENCES peripatos.course(courseId),
+	FOREIGN KEY (assignmentId) REFERENCES peripatos.assignment(assignmentId)
 );
 
-CREATE TABLE PERIPATOS.USER_QUESTION(
+CREATE TABLE peripatos.user_question(
 	username varchar(45) NOT NULL,
-	question_id bigint NOT NULL,
-	FOREIGN KEY (username) REFERENCES PERIPATOS.USERS(username),
-	FOREIGN KEY (question_id) REFERENCES PERIPATOS.QUESTION(question_id)
+	questionId bigint NOT NULL,
+	FOREIGN KEY (username) REFERENCES peripatos.users(username),
+	FOREIGN KEY (questionId) REFERENCES peripatos.question(questionId)
 );
 
-CREATE TABLE PERIPATOS.QUESTION_GEOLOCATION(
-	question_id bigint NOT NULL,
-	geolocation_id bigint NOT NULL,
-	FOREIGN KEY (question_id) REFERENCES PERIPATOS.QUESTION(question_id),
-	FOREIGN KEY (geolocation_id) REFERENCES PERIPATOS.GEOLOCATION(geolocation_id)
+CREATE TABLE peripatos.question_geolocation(
+	questionId bigint NOT NULL,
+	geolocationId bigint NOT NULL,
+	FOREIGN KEY (questionId) REFERENCES peripatos.question(questionId),
+	FOREIGN KEY (geolocationId) REFERENCES peripatos.geolocation(geolocationId)
 );
 
-CREATE TABLE PERIPATOS.USER_ANSWER(
+CREATE TABLE peripatos.user_answer(
 	username varchar(45) NOT NULL,
-	answer_id bigint NOT NULL,
-	FOREIGN KEY (username) REFERENCES PERIPATOS.USERS(username),
-	FOREIGN KEY (answer_id) REFERENCES PERIPATOS.ANSWER(answer_id)
+	answerId bigint NOT NULL,
+	FOREIGN KEY (username) REFERENCES peripatos.users(username),
+	FOREIGN KEY (answerId) REFERENCES peripatos.answer(answerId)
 );
 
-CREATE TABLE PERIPATOS.ASSIGNMENT_QUESTION(
-	assignment_id bigint NOT NULL,
-	question_id bigint NOT NULL,
-	FOREIGN KEY (assignment_id) REFERENCES PERIPATOS.ASSIGNMENT(assignment_id),
-	FOREIGN KEY (question_id) REFERENCES PERIPATOS.QUESTION(question_id)
+CREATE TABLE peripatos.assignment_question(
+	assignmentId bigint NOT NULL,
+	questionId bigint NOT NULL,
+	FOREIGN KEY (assignmentId) REFERENCES peripatos.assignment(assignmentId),
+	FOREIGN KEY (questionId) REFERENCES peripatos.question(questionId)
 );
 
-CREATE TABLE PERIPATOS.ANSWER_QUESTION_ASSIGNMENT_COURSE(
-	answer_id bigint NOT NULL,
-	question_id bigint NOT NULL,
-	assignment_id bigint NOT NULL,
-	course_id bigint NOT NULL,
-	FOREIGN KEY (answer_id) REFERENCES PERIPATOS.ANSWER(answer_id),
-	FOREIGN KEY (question_id) REFERENCES PERIPATOS.QUESTION(question_id),
-	FOREIGN KEY (assignment_id) REFERENCES PERIPATOS.ASSIGNMENT(assignment_id),
-	FOREIGN KEY (course_id) REFERENCES PERIPATOS.COURSE(course_id)
+CREATE TABLE peripatos.answer_question(
+	answerId bigint NOT NULL,
+	questionId bigint NOT NULL,
+	FOREIGN KEY (answerId) REFERENCES peripatos.answer(answerId),
+	FOREIGN KEY (questionId) REFERENCES peripatos.question(questionId)
+);
+
+CREATE TABLE peripatos.answer_assignment(
+	answerId bigint NOT NULL,
+	assignmentId bigint NOT NULL,
+	FOREIGN KEY (answerId) REFERENCES peripatos.answer(answerId),
+	FOREIGN KEY (assignmentId) REFERENCES peripatos.assignment(assignmentId)
+);
+
+CREATE TABLE peripatos.answer_course(
+	answerId bigint NOT NULL,
+	courseId bigint NOT NULL,
+	FOREIGN KEY (answerId) REFERENCES peripatos.answer(answerId),
+	FOREIGN KEY (courseId) REFERENCES peripatos.course(courseId)
 );

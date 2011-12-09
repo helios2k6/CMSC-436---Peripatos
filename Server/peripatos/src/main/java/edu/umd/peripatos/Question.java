@@ -1,5 +1,6 @@
 package edu.umd.peripatos;
 
+import java.util.List;
 import java.util.Random;
 
 import javax.persistence.CascadeType;
@@ -9,12 +10,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "QUESTION")
+@Table(name = "question")
 public class Question {
 	
 	private static final Random random = new Random();
@@ -27,12 +29,40 @@ public class Question {
 	private User user;
 	private GeoLocation location;
 	
+	//Mandatory Mappings
+	private List<Assignment> assignments;
+	private List<Answer> answers;
+	
+	@OneToMany
+	@JoinTable(name = "assignment_question", 
+	joinColumns={@JoinColumn(name="questionId")}, 
+	inverseJoinColumns={@JoinColumn(name="assignmentId")})
+	public List<Assignment> getAssignments() {
+		return assignments;
+	}
+
+	public void setAssignments(List<Assignment> assignments) {
+		this.assignments = assignments;
+	}
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "answer_question", 
+	joinColumns={@JoinColumn(name="questionId")}, 
+	inverseJoinColumns={@JoinColumn(name="answerId")})
+	public List<Answer> getAnswers() {
+		return answers;
+	}
+
+	public void setAnswers(List<Answer> answers) {
+		this.answers = answers;
+	}
+
 	public Question(){
 		id = random.nextLong();
 	}
 	
 	@Id
-	@Column(name = "QUESTION_ID")
+	@Column(name = "questionId")
 	public Long getId() {
 		return id;
 	}
@@ -42,7 +72,8 @@ public class Question {
 	}
 	
 	@ManyToOne
-	@JoinTable(name = "USER_QUESTION", joinColumns = {@JoinColumn(name = "QUESTION_ID")}, inverseJoinColumns = {@JoinColumn(name="USERNAME")})
+	@JoinTable(name = "user_question", joinColumns = {@JoinColumn(name = "questionId")},
+			inverseJoinColumns = {@JoinColumn(name="username")})
 	public User getUser() {
 		return user;
 	}
@@ -52,7 +83,7 @@ public class Question {
 	}
 	
 	@NotNull
-	@Column(name = "TITLE")
+	@Column(name = "title")
 	public String getTitle() {
 		return title;
 	}
@@ -62,7 +93,7 @@ public class Question {
 	}
 	
 	@NotNull
-	@Column(name = "BODY")
+	@Column(name = "body")
 	public String getBody() {
 		return body;
 	}
@@ -72,8 +103,10 @@ public class Question {
 	}
 	
 	@NotNull
-	@OneToOne(cascade=CascadeType.ALL)
-	@JoinTable(name = "QUESTION_GEOLOCATION", joinColumns = {@JoinColumn(name="QUESTION_ID")}, inverseJoinColumns = {@JoinColumn(name = "GEOLOCATION_ID")})
+	@OneToOne
+	@JoinTable(name = "question_geolocation", 
+	joinColumns = {@JoinColumn(name="questionId")}, 
+	inverseJoinColumns = {@JoinColumn(name = "geolocationId")})
 	public GeoLocation getLocation() {
 		return location;
 	}

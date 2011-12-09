@@ -1,13 +1,16 @@
 <%@include file="/WEB-INF/views/header.jsp"%>
 </head>
 <body>
-	<h1>Question Bank</h1>
-	<h2>Questions</h2>
-	<a href="<c:url value='./questions/createQuestion' />">Create Question</a>
-	<div class="unorderedList">
-		<ul>
+	<div class="pageTitleClass">Question Bank</div>
+	<%@include file="/WEB-INF/views/banner.jsp"%>
+	<div class="smallerMainBodyareaClass">
+		<div class="listTitleClass">Questions</div>
+		<div id="createQuestionLink">
+			<a href="<c:url value='./questions/createQuestion' />">Create Question</a>
+		</div>
+		<ul class="listClass">
 			<c:forEach items="${questions}" var="question">
-				<li><a href="<c:url value='./questions/${question.id}'/>">${question.title}</a></li>
+				<li class="listItemClass"><a href="<c:url value='./questions/${question.id}'/>">${question.title}</a></li>
 			</c:forEach>
 		</ul>
 	</div>

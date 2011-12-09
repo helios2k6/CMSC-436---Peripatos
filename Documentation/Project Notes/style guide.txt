@@ -14,7 +14,11 @@ Page Subtitle
 
 Main Body Area
 	+ div class "mainBodyAreaClass"
+	+ border: #E1E3F2
 
+List
+	+ class = "listClass"
+	
 List Title
 	+ div class "listTitleClass"
 	
@@ -25,11 +29,14 @@ Table
 	+ div class "tableClass"
 
 Link
-	+ Color: #b83400
+	+ Color: #6D8BBD
+
+Link:hover, Link:visited
+	+ Color: #E69660
 
 Forms
 	+ div class "formClass"
-	+ Light gray outline
+	+ Light gray background
 
 Form Element
 	+ div class "formElement"
@@ -56,6 +63,9 @@ Cancel Button:
 	+ text value: "Cancel"
 
 Specific Styles:
+Banner:
+	+ Background color: #F0F1F5
+
 Answer Details
 	+ Question/Response Entry
 		+ div class "questionResponseClass
@@ -115,9 +125,5 @@ Banner
 	+ div class "bannerClass"
 	+ App Title
 		+ div class "appTitleClass"
-	+ Question Bank Link
-		+ div class "questionBankLinkBannerClass"
-	+ Courses Link
-		+ div class "coursesLinkBannerCLass"
-	+ Logout Link
-		+div class "logoutLinkClass"
+	+ Links
+		+ div class = "bannerLinkClass"

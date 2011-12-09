@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -14,8 +15,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
-@Table(name="ASSIGNMENT")
+@Table(name="assignment")
 public class Assignment {
 	private static final Random random = new Random();
 	
@@ -27,12 +30,16 @@ public class Assignment {
 	private User user;
 	private List<Question> questions;
 	
+	//Mandatory Relationships
+	private List<Answer> answers;
+	private List<Course> courses;
+	
 	public Assignment(){
 		id = random.nextLong();
 	}
 	
 	@Id
-	@Column(name = "ASSIGNMENT_ID")
+	@Column(name = "assignmentId")
 	public Long getId() {
 		return id;
 	}
@@ -41,10 +48,21 @@ public class Assignment {
 		this.id = id;
 	}
 	
+	@OneToMany
+	@JoinTable(name = "course_assignment", joinColumns = {@JoinColumn(name = "assignmentId")}, 
+	inverseJoinColumns = {@JoinColumn(name = "courseId")})	
+	public List<Course> getCourses() {
+		return courses;
+	}
+
+	public void setCourses(List<Course> courses) {
+		this.courses = courses;
+	}
+
 	@ManyToOne
-	@JoinTable(name = "USER_ASSIGNMENT", 
-	joinColumns = {@JoinColumn(name = "ASSIGNMENT_ID")}, 
-	inverseJoinColumns={@JoinColumn(name = "USERNAME")})
+	@JoinTable(name = "user_assignment", 
+	joinColumns = {@JoinColumn(name = "assignmentId")}, 
+	inverseJoinColumns={@JoinColumn(name = "username")})
 	public User getUser() {
 		return user;
 	}
@@ -53,8 +71,20 @@ public class Assignment {
 		this.user = user;
 	}
 	
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "answer_assignment", 
+	joinColumns = {@JoinColumn(name = "assignmentId")},
+	inverseJoinColumns={@JoinColumn(name="answerId")})
+	public List<Answer> getAnswers() {
+		return answers;
+	}
+
+	public void setAnswers(List<Answer> answers) {
+		this.answers = answers;
+	}
+
 	@NotNull
-	@Column(name = "NAME")
+	@Column(name = "name")
 	public String getName() {
 		return name;
 	}
@@ -64,7 +94,8 @@ public class Assignment {
 	}
 	
 	@OneToMany
-	@JoinTable(name = "ASSIGNMENT_QUESTION", joinColumns = {@JoinColumn(name = "ASSIGNMENT_ID")}, inverseJoinColumns = {@JoinColumn(name = "QUESTION_ID")})
+	@JoinTable(name = "assignment_question", joinColumns = {@JoinColumn(name = "assignmentId")}, 
+	inverseJoinColumns = {@JoinColumn(name = "questionId")})
 	public List<Question> getQuestions() {
 		return questions;
 	}
@@ -74,7 +105,8 @@ public class Assignment {
 	}
 	
 	@NotNull
-	@Column(name = "DUE_DATE")
+	@Column(name = "dueDate")
+	@DateTimeFormat(style="yyyy-MM-dd")
 	public Date getDueDate() {
 		return dueDate;
 	}

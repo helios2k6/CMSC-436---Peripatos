@@ -112,11 +112,8 @@
 		</dependency>
 
 		<!-- JPA -->
-		<dependency>
-			<groupId>javax.persistence</groupId>
-			<artifactId>persistence-api</artifactId>
-			<version>1.0-rev-1</version>
-		</dependency>
+		<!-- <dependency> <groupId>javax.persistence</groupId> <artifactId>persistence-api</artifactId> <version>1.0-rev-1</version> 
+			</dependency> -->
 		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
@@ -136,6 +133,9 @@
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>3.6.8.Final</version>
 		</dependency>
+		<!-- <dependency> <groupId>org.hibernate.javax.persistence</groupId> <artifactId>hibernate-jpa-2.0-api</artifactId> <version>1.0.1.Final</version> 
+			</dependency> <dependency> <groupId>org.hibernate</groupId> <artifactId>hibernate-annotations</artifactId> <version>3.5.6-Final</version> 
+			</dependency> -->
 
 		<!-- Apache Datasource -->
 		<dependency>

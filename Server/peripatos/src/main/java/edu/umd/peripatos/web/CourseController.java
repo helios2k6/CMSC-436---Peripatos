@@ -163,7 +163,9 @@ public class CourseController {
 	}
 
 	@RequestMapping(value = "/courses/{course_id}/assignments/{assignment_id}", method = RequestMethod.DELETE)
-	public String deleteAssignment(@PathVariable("course_id")Long courseId, @ModelAttribute("assignment") Assignment assignment){
+	public String deleteAssignment(@PathVariable("course_id")Long courseId, @PathVariable("assignment_id")Long assignmentId){
+		logger.info("Deleting assignment");
+		Assignment assignment = assignmentDao.findAssignmentById(assignmentId);
 		logger.info("Deleting Assignment: " + assignment.getId());
 
 		assignmentDao.delete(assignment);
@@ -188,20 +190,21 @@ public class CourseController {
 		return "courses/assignments/answers/listStudents";
 	}
 
+	
 	@RequestMapping(value = "/courses/{course_id}/assignments/{assignment_id}/answers/{username}", method = RequestMethod.GET)
 	public String getAnswersFromStudent(
 			@PathVariable("course_id") Long cid, 
 			@PathVariable("assignment_id") Long aid, 
 			@PathVariable("username")String username, 
 			Model model){
+		
 		Assignment assignment = assignmentDao.findAssignmentById(aid);
 		User user = userDao.findUserByName(username);
 		Course course = courseDao.findCourseById(cid);
 
 		List<Answer> answers = answerDao.getAnswerByAssignmentAndUserAndCourse(assignment, user, course);
-
+		
 		model.addAttribute("user", user);
-		model.addAttribute("course", course);
 		model.addAttribute("assignment", assignment);
 		model.addAttribute("answers", answers);
 
@@ -213,6 +216,7 @@ public class CourseController {
 		List<Question> questions = questionDao.getQuestionsByUser(userDao.findUserByName(request.getRemoteUser()));
 
 		model.addAttribute("availableQuestions", questions);
+		model.addAttribute("newAssignment", true);
 
 		return "courses/assignments/assignmentDetails";
 	}

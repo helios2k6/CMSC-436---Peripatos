@@ -19,12 +19,14 @@
 		}
 
 		//Set Date Picker for the due date thing
-		$("#dueDate").datepicker({dateFormat:'yy-mm-dd'});
+		$("#dueDate").datepicker({
+			dateFormat : 'yy-mm-dd'
+		});
 
 		//Set droppable
 		$("#assignedQuestionsList, #availableQuestionsList").sortable({
 			connectWith : ".connectedSortable",
-			placeholder: "ui-state-highlight" //This is temporary
+			placeholder : "ui-state-highlight" //This is temporary
 		}).disableSelection();
 
 		//Hydrate the questionDictionary
@@ -37,39 +39,53 @@
 		$("#hiddenValueArea").remove();
 
 	});
-	
-	function preSubmitFunction(){
+
+	function preSubmitFunction() {
 		var assignedQuestionIds = "";
-		
-		$("#assignedQuestionsList > li").each(function(index, element){
+
+		$("#assignedQuestionsList > li").each(function(index, element) {
 			var text = $(element).text();
 			var id = questionDictionary[text];
-			
-			if(index == 0){
+
+			if (index == 0) {
 				assignedQuestionIds = id;
-			}else{
+			} else {
 				assignedQuestionIds = assignedQuestionIds + ",;" + id;
 			}
 		});
-		
+
 		$('input[name="selectedQuestions"]').val(assignedQuestionIds);
-		
+
+	}
+	
+	function deleteAssignment() {
+		$("<input>").attr({
+			type: 'hidden',
+			name: '_method',
+			value: 'DELETE'
+		}).appendTo("#assignment");
+	}
+	
+	function cancelAssignment(){
+		history.go(-1);
 	}
 </script>
 </head>
 <body>
-	<div class="mainBodyAreaClass">
+	<div class="pageTitleClass">Assignment Details</div>
+	<%@include file="/WEB-INF/views/banner.jsp"%>
+	<div id="customMainBodyArea">
 		<div class="formClass">
 			<form:form method="POST" modelAttribute="assignment">
-				<table class="tableClass">
+				<table id="assignmentDetailsNameAndDateId">
 					<tr>
 						<td>Name:</td>
-						<td><form:input path="name" value="${assignment.name}" /></td>
+						<td class="fullWidthInputClass"><form:input path="name" value="${assignment.name}" /></td>
 					</tr>
 					<tr>
 						<td>Date:</td>
-						<td><form:input path="dueDate" readonly="true"
-								value="${assignment.dueDate}" /></td>
+						<fmt:formatDate var="formattedDate" pattern='yyyy-MM-dd' value='${assignment.dueDate}'/>
+						<td class="fullWidthInputClass"><form:input path="dueDate" readonly="true" value="${formattedDate}" /></td>
 					</tr>
 				</table>
 				<table class="tableClass">
@@ -81,9 +97,8 @@
 						<td>
 							<div class="assignmentQuestionEntryClass">
 								<ul id="assignedQuestionsList" class="connectedSortable">
-									<c:forEach items="${assignment.questions}"
-										var="assignedQuestion">
-										<li>${assignedQuestion.title}</li>
+									<c:forEach items="${assignment.questions}" var="assignedQuestion">
+										<li class="draggableQuestionListItemClass">${assignedQuestion.title}</li>
 									</c:forEach>
 								</ul>
 							</div>
@@ -91,27 +106,23 @@
 						<td>
 							<div class="assignmentQuestionEntryClass">
 								<ul id="availableQuestionsList" class="connectedSortable">
-									<c:forEach items="${availableQuestions}"
-										var="availableQuestion">
-										<li>${availableQuestion.title}</li>
+									<c:forEach items="${availableQuestions}" var="availableQuestion">
+										<li class="draggableQuestionListItemClass">${availableQuestion.title}</li>
 									</c:forEach>
 								</ul>
 							</div>
 						</td>
 					</tr>
 				</table>
-				<div id="formFooter">
-					<input type="submit" name="submit" value="Save"
-						onClick="preSubmitFunction()" /> <input type="button"
-						name="cancel" value="Cancel" />
+				<div class="formFooterArea">
+					<input type="submit" name="submit" value="Save" onClick="preSubmitFunction()" /> <input type="button"
+						name="cancel" value="Cancel" onClick="cancelAssignment()" />
+					<c:if test="${newAssignment != true}">
+						<input type="submit" name="delete" value="Delete" onClick="deleteAssignment()" />
+					</c:if>
 				</div>
 				<input type="hidden" name="selectedQuestions" value="" />
 			</form:form>
-			<div class="deleteFormClass">
-				<form:form method="DELETE">
-					<input type="submit" value="Delete" />
-				</form:form>
-			</div>
 		</div>
 	</div>
 	<div id="hiddenValueArea">

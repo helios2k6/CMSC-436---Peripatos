@@ -79,6 +79,7 @@ public class QuestionBankController {
 	
 	@RequestMapping(value = "/questions/createQuestion", method = RequestMethod.GET)
 	public String createNewQuestionForm(Model model, HttpServletRequest request){
+		model.addAttribute("newQuestion", true);
 		return "questions/questionDetails";
 	}
 	
@@ -113,7 +114,9 @@ public class QuestionBankController {
 	@RequestMapping(value = "/questions/{question_id}", method = RequestMethod.DELETE)
 	public String deleteQuestion(@PathVariable("question_id")Long id){
 		logger.info("Deleting Question: " + id);
-		questionDao.delete(questionDao.getQuestionById(id));
+		Question question = questionDao.getQuestionById(id);
+		
+		questionDao.delete(question);
 		
 		return "redirect:/peripatos/questions";
 	}

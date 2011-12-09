@@ -3,13 +3,18 @@ package edu.umd.peripatos.android.rest;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
+import org.jdom.Namespace;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
@@ -40,7 +45,7 @@ import edu.umd.peripatos.dao.UserDao;
 import edu.umd.peripatos.xmlUtils.XMLResponseFactory;
 
 @Controller
-@RequestMapping("/android/")
+@RequestMapping("/android")
 public class AndroidRequestController {
 
 	@Autowired @Qualifier("org.springframework.security.authenticationManager")
@@ -61,59 +66,101 @@ public class AndroidRequestController {
 	@Autowired
 	private CourseDao courseDao;
 
+	private Logger logger = Logger.getLogger(AndroidRequestController.class);
+
 	@RequestMapping(value="/request", method=RequestMethod.POST)
 	@ResponseBody
-	public String getUserInformation(@RequestBody String body){
+	public String getUserInformation(@RequestBody String body) throws UnsupportedEncodingException {
 		String responseString = "";
-
 		try {
-			Document doc = getDocumentFromPayload(body);
-			Element root = doc.getRootElement();
+			logger.info("Android App requested user info");
+			logger.info("Payload is: " + body);
 
-			String username = root.getChild("user_credentials").getChild("username").getText();
-			String password = root.getChild("user_credentials").getChild("password").getText();
+			String decodedString = URLDecoder.decode(body, "UTF-8");
+			String cleanedDecodedString = decodedString.trim();
+			
+			logger.info("Decoded String is " + decodedString);
+			logger.info("Cleaned String is " + cleanedDecodedString);
+			
+			try {
+				logger.info("Getting document");
+				Namespace ns = Namespace.getNamespace(XMLResponseFactory.PERIPATOS_NAMESPACE);
+				Document doc = getDocumentFromPayload(cleanedDecodedString); 
 
-			boolean isAuthenticated = checkLogin(username, password);
+				logger.info("Got document. Analyzing");
 
-			Document response;
+				Element root = doc.getRootElement();
 
-			if(isAuthenticated){
-				User user = userDao.findUserByName(username);
+				logger.info("Gathering credentials");
 
-				response = XMLResponseFactory.generateResponseForRequest(userDao.getCoursesByUser(user));
-			}else{
-				response = XMLResponseFactory.generateErrorResponse(ErrorResponseCode.INVALID_LOGIN);
+				String username = root.getChild("user_credentials", ns).getChild("username", ns).getText();
+				logger.info("User = " + username);
+
+				String password = root.getChild("user_credentials", ns).getChild("password", ns).getText();
+				logger.info("Password = " + password);
+
+				boolean isAuthenticated = checkLogin(username, password);
+
+				Document response;
+
+				if(isAuthenticated){
+					logger.info("User is authenticated");
+					User user = userDao.findUserByName(username);
+
+					response = XMLResponseFactory.generateResponseForRequest(userDao.getCoursesByUser(user));
+				}else{
+					logger.info("User is not authenticated");
+					response = XMLResponseFactory.generateErrorResponse(ErrorResponseCode.INVALID_LOGIN);
+				}
+
+				responseString = convertDocumentToString(response);
+
+			} catch (JDOMException e) {
+				logger.error("JDOM Error", e);
+			} catch (IOException e) {
+				logger.error("IO Error", e);
 			}
-
-			responseString = convertDocumentToString(response);
-
-		} catch (JDOMException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (UnsupportedEncodingException e2) {
+			logger.error("Could not decode string", e2);
 		}
-		return responseString;
+		return URLEncoder.encode(responseString, "UTF-8");
 	}
 
 	@RequestMapping(value="/submit", method=RequestMethod.POST)
 	@ResponseBody
-	public String saveAnswerSubmission(@RequestBody String body){
+	public String saveAnswerSubmission(@RequestBody String body) throws UnsupportedEncodingException{
 		String responseString = "";
 		try {
-			Document doc = getDocumentFromPayload(body);
+			logger.info("Android app requesting submission service");
+			
+			String decodedString = URLDecoder.decode(body, "UTF-8").trim();
+			
+			logger.info("Payload String: " + body);
+			logger.info("Decoded String: " + decodedString);
+			
+			Namespace ns = Namespace.getNamespace(XMLResponseFactory.PERIPATOS_NAMESPACE);
+			Document doc = getDocumentFromPayload(decodedString);
 			Element root = doc.getRootElement();
-
-			String username = root.getChild("user_credentials").getChild("username").getText();
-			String password = root.getChild("user_credentials").getChild("password").getText();
-
+			
+			String username = root.getChild("user_credentials", ns).getChild("username", ns).getText();
+			logger.info("Username = " + username);
+			String password = root.getChild("user_credentials", ns).getChild("password", ns).getText();
+			logger.info("Password = " + password);
+			
+			
 			boolean isAuthenticated = checkLogin(username, password);
 
 			Document response = null;
 
 			if(isAuthenticated){
+				logger.info("User is authenticated");
 				User user = userDao.findUserByName(username);
-				Element courses = root.getChild("courses");
-
+				
+				logger.info("Username: " + user.getUsername());
+				
+				Element courses = root.getChild("courses", ns);
+				
+				logger.info("Processing response");
 				List<Answer> answers = processCourses(courses, user);
 
 				for(Answer a : answers){
@@ -128,27 +175,30 @@ public class AndroidRequestController {
 
 			responseString = convertDocumentToString(response);
 		} catch (JDOMException e) {
-			e.printStackTrace();
+			logger.error("JDOM Error", e);
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error("IO Exception", e);
 		}
-		return responseString;
+		return URLEncoder.encode(responseString, "UTF-8");
+
 	}
 
 	private String convertDocumentToString(Document doc) throws IOException{
-		XMLOutputter outputter = new XMLOutputter(Format.getCompactFormat());
+		XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
 
 		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
 
 		outputter.output(doc, outStream);
 
-		return new String(outStream.toByteArray());
+		return outStream.toString();
 
 	}
 
 	private Document getDocumentFromPayload(String payload) throws JDOMException, IOException{
+		StringReader stringReader = new StringReader(payload);
 		SAXBuilder builder = new SAXBuilder();
-		Document doc = builder.build(new StringReader(payload));
+		Document doc = builder.build(stringReader);
+		stringReader.close();
 
 		return doc;
 	}
@@ -179,15 +229,15 @@ public class AndroidRequestController {
 	}
 
 	private void processCourse(Element parent, User user, List<Answer> answers){
-		long courseId = Long.parseLong(parent.getChild("course_id").getText());
+		Namespace ns = Namespace.getNamespace(XMLResponseFactory.PERIPATOS_NAMESPACE);
+		long courseId = Long.parseLong(parent.getChild("course_id", ns).getText());
 
 		Course course = courseDao.findCourseById(courseId);
 
 		if(course == null){
 			return;
 		}
-
-		Element assignments = parent.getChild("assignments");
+		Element assignments = parent.getChild("assignments", ns);
 
 		processAssignments(assignments, user, course, answers);
 	}
@@ -204,8 +254,9 @@ public class AndroidRequestController {
 	}
 
 	private void processAssignment(Element parent, User user, Course course, List<Answer> answers){
-		long assignmentId = Long.parseLong(parent.getChild("assignment_id").getText());
-		Element questions = parent.getChild("questions");
+		Namespace ns = Namespace.getNamespace(XMLResponseFactory.PERIPATOS_NAMESPACE);
+		long assignmentId = Long.parseLong(parent.getChild("assignment_id", ns).getText());
+		Element questions = parent.getChild("questions", ns);
 
 		Assignment assignment = assignmentDao.findAssignmentById(assignmentId);
 
@@ -233,9 +284,9 @@ public class AndroidRequestController {
 
 	private Answer processQuestion(Element parent, User user, Course course, Assignment assignment){
 		Answer answer = new Answer();
-
-		long questionId = Long.parseLong(parent.getChild("question_id").getText());
-		String answerBody = parent.getChild("answer_body").getText();
+		Namespace ns = Namespace.getNamespace(XMLResponseFactory.PERIPATOS_NAMESPACE);
+		long questionId = Long.parseLong(parent.getChild("question_id", ns).getText());
+		String answerBody = parent.getChild("answer_body", ns).getText();
 
 		Question question = questionDao.getQuestionById(questionId);
 

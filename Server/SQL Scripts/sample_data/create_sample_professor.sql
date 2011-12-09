@@ -1,2 +1,2 @@
-INSERT INTO PERIPATOS.USERS VALUES ('professor', 'password', 1, 'ROLE_PROFESSOR');
-INSERT INTO PERIPATOS.AUTHORITIES VALUES ('professor', 'ROLE_PROFESSOR');
+INSERT INTO peripatos.users VALUES ('professor', 'password', 1, 'ROLE_PROFESSOR');
+INSERT INTO peripatos.authorities VALUES ('professor', 'ROLE_PROFESSOR');

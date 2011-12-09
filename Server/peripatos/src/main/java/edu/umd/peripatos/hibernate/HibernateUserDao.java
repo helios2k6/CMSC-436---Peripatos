@@ -2,12 +2,15 @@ package edu.umd.peripatos.hibernate;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.umd.peripatos.Answer;
+import edu.umd.peripatos.Assignment;
 import edu.umd.peripatos.Course;
 import edu.umd.peripatos.User;
 import edu.umd.peripatos.dao.UserDao;
@@ -20,6 +23,8 @@ public class HibernateUserDao implements UserDao {
 	public void setSessionFactory(SessionFactory sessionFactory){
 		this.sessionFactory = sessionFactory;
 	}
+
+	private Logger logger = Logger.getLogger(HibernateUserDao.class);
 
 	@Override
 	public User findUserByName(String name) {
@@ -47,13 +52,54 @@ public class HibernateUserDao implements UserDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Course> getCoursesByUser(User user) {
+		logger.info("Getting courses by user for "+ user.getUsername());
 		Session session = sessionFactory.getCurrentSession();
+
 		String queryString = "FROM Course as course " +
-				"inner join fetch course.users as c_user " + 
+				"inner join fetch course.users as c_user " +
 				"WHERE c_user.username = '" + user.getUsername() + "'";
 
 		Query query = session.createQuery(queryString);
-		return query.list();
+
+		List<Course> courses = query.list();
+
+		for(Course c : courses){
+			List<Assignment> assignments = c.getAssignments();
+			for(Assignment a : assignments){
+				Hibernate.initialize(a.getQuestions());
+			}
+			Hibernate.initialize(c.getUsers());
+		}
+
+		return courses;
+
+
+		//		Criteria crit = session.createCriteria(Course.class);
+		//
+		//		List<Course> courses = crit.list();
+		//
+		//		List<Course> allAvailableCourses = new ArrayList<Course>();
+		//
+		//		for(Course c : courses){
+		//			logger.info("Got course " + c.getName());
+		//			for(User u : c.getUsers()){
+		//				logger.info("User in course is " + u.getUsername());
+		//
+		//				if(u.getUsername().equals(user.getUsername())){
+		//					allAvailableCourses.add(c);
+		//				}
+		//			}
+		//		}
+		//
+		//		for(Course c : allAvailableCourses){
+		//			List<Assignment> assignments = c.getAssignments();
+		//			for(Assignment a : assignments){
+		//				Hibernate.initialize(a.getQuestions());
+		//			}
+		//		}
+		//
+		//
+		//		return allAvailableCourses;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -66,6 +112,11 @@ public class HibernateUserDao implements UserDao {
 						"WHERE u.username = " + user.getUsername()
 				);
 		return query.list();
+
+		//		Criteria crit = session.createCriteria(Answer.class);
+		//		crit.add(Restrictions.eq("user", user.getUsername()));
+		//
+		//		return crit.list();
 	}
 
 }

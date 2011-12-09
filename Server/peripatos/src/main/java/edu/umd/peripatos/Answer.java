@@ -3,6 +3,7 @@ package edu.umd.peripatos;
 import java.util.Date;
 import java.util.Random;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -14,7 +15,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "ANSWER")
+@Table(name = "answer")
 public class Answer {
 
 	private static final Random random = new Random();
@@ -33,7 +34,7 @@ public class Answer {
 	}
 
 	@Id
-	@Column(name = "ANSWER_ID")
+	@Column(name = "answerId")
 	public Long getId() {
 		return id;
 	}
@@ -44,9 +45,9 @@ public class Answer {
 
 	@NotNull
 	@ManyToOne
-	@JoinTable(name = "USER_ANSWER", 
-	joinColumns = {@JoinColumn(name = "ANSWER_ID")}, 
-	inverseJoinColumns = {@JoinColumn(name="USERNAME")})
+	@JoinTable(name = "user_answer", 
+	joinColumns = {@JoinColumn(name = "answerId")}, 
+	inverseJoinColumns = {@JoinColumn(name="username")})
 	public User getUser() {
 		return user;
 	}
@@ -56,7 +57,7 @@ public class Answer {
 	}
 
 	@NotNull
-	@Column(name = "DATE")
+	@Column(name = "submissionDate")
 	public Date getSubmissionDate() {
 		return submissionDate;
 	}
@@ -67,9 +68,9 @@ public class Answer {
 
 	@NotNull
 	@OneToOne(targetEntity = Assignment.class)
-	@JoinTable(name = "ANSWER_QUESTION_ASSIGNMENT_COURSE", 
-	joinColumns = {@JoinColumn(name = "ANSWER_ID")},
-	inverseJoinColumns={@JoinColumn(name="ASSIGNMENT_ID")})
+	@JoinTable(name = "answer_assignment", 
+	joinColumns = {@JoinColumn(name = "answerId")},
+	inverseJoinColumns={@JoinColumn(name="assignmentId")})
 	public Assignment getAssignment() {
 		return assignment;
 	}
@@ -80,9 +81,9 @@ public class Answer {
 
 
 	@NotNull
-	@OneToOne(targetEntity = Question.class)
-	@JoinTable(name = "ANSWER_QUESTION_ASSIGNMENT_COURSE", joinColumns = {@JoinColumn(name = "ANSWER_ID")},
-	inverseJoinColumns={@JoinColumn(name="QUESTION_ID")	})
+	@OneToOne(targetEntity = Question.class, cascade=CascadeType.ALL)
+	@JoinTable(name = "answer_question", joinColumns = {@JoinColumn(name = "answerId")},
+	inverseJoinColumns={@JoinColumn(name="questionId")})
 	public Question getQuestion() {
 		return question;
 	}
@@ -92,7 +93,7 @@ public class Answer {
 	}
 
 	@NotNull
-	@Column(name = "BODY")
+	@Column(name = "body")
 	public String getBody() {
 		return body;
 	}
@@ -104,8 +105,8 @@ public class Answer {
 
 	@NotNull
 	@OneToOne(targetEntity = Course.class)
-	@JoinTable(name = "ANSWER_QUESTION_ASSIGNMENT_COURSE", joinColumns = {@JoinColumn(name = "ANSWER_ID")},
-	inverseJoinColumns={@JoinColumn(name="COURSE_ID")})
+	@JoinTable(name = "answer_course", joinColumns = {@JoinColumn(name = "answerId")},
+	inverseJoinColumns={@JoinColumn(name="courseId")})
 	public Course getCourse() {
 		return course;
 	}
